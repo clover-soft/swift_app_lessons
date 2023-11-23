@@ -1,0 +1,58 @@
+# Xcode
+#
+# Ignore the build directory
+build/
+
+# Ignore the Xcode project file
+*.xcodeproj/
+
+# Ignore the Xcode workspace file
+*.xcworkspace/
+
+# Ignore the Xcode scheme file
+*.xcscheme
+
+# Ignore the Xcode user data folder
+xcuserdata/
+
+# Ignore the Xcode device logs
+*.xcdevice*
+
+# Ignore the Xcode configuration file
+*.xcconfig
+
+# Ignore the Xcode coverage data
+*.xccoverage
+
+# Ignore the Xcode code coverage report
+*.xcresult
+
+# Ignore the Xcode DerivedData folder
+DerivedData/
+
+# Ignore the Xcode archives
+*.xcarchive
+
+# Ignore the Xcode private settings file
+*.mode1v3
+
+# Ignore the Xcode Caches folder
+Caches/
+
+# Ignore the Xcode documentation cache
+DocumentationCache/
+
+# Ignore the Xcode diagnostic logs
+*.xcactivitylog
+
+# Ignore the Xcode Source Control folder
+.xcscmblueprint
+
+# Ignore the Xcode Swift Package Manager folder
+.checkouts/
+
+# Ignore the Xcode Package.resolved file
+Package.resolved
+
+# Ignore the Xcode Playgrounds folder
+*.playground
