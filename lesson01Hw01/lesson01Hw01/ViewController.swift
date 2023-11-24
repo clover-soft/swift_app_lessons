@@ -9,13 +9,13 @@ import UIKit
 
 class ViewController: UIViewController {
     
-    let logoImageView: UIImageView = {
+    private let logoImageView: UIImageView = {
         let imageView = UIImageView(image: UIImage(named: "logo1"))
         imageView.translatesAutoresizingMaskIntoConstraints = false
         return imageView
     }()
     
-    let titleLabel: UILabel = {
+    private let titleLabel: UILabel = {
         let label = UILabel()
         label.text = "Авторизация"
         label.font = UIFont.boldSystemFont(ofSize: 24)
@@ -24,7 +24,7 @@ class ViewController: UIViewController {
         return label
     }()
     
-    let loginTextField: UITextField = {
+    private let loginTextField: UITextField = {
         let textField = UITextField()
         textField.placeholder = "Логин"
         textField.borderStyle = .roundedRect
@@ -32,7 +32,7 @@ class ViewController: UIViewController {
         return textField
     }()
     
-    let passwordTextField: UITextField = {
+    private let passwordTextField: UITextField = {
         let textField = UITextField()
         textField.placeholder = "Пароль"
         textField.borderStyle = .roundedRect
@@ -42,7 +42,7 @@ class ViewController: UIViewController {
     }()
     
     
-    let submitButton: UIButton = {
+    private let submitButton: UIButton = {
         let button = UIButton(type: .system)
         button.setTitle("Войти", for: .normal)
         button.titleLabel?.font = UIFont.boldSystemFont(ofSize: 22)
