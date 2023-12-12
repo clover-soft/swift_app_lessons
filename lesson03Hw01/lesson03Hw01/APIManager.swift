@@ -67,8 +67,20 @@ final class APIManager {
             }
             
             do {
-                let decodedData = try JSONDecoder().decode(FriendsModel.self, from: data)
-                print(decodedData)
+                switch request {
+                case .friends:
+                    let decodedData = try JSONDecoder().decode(FriendsModel.self, from: data)
+                    print(decodedData)
+                    break
+                case .groups:
+                    let decodedData = try JSONDecoder().decode(GroupsModel.self, from: data)
+                    print(decodedData)
+                    break
+                case .photos:
+                    let decodedData = try JSONDecoder().decode(PhotosModel.self, from: data)
+                    print(decodedData)
+                    break
+                }
             } catch {
                 print(error)
             }
