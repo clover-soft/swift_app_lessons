@@ -7,7 +7,7 @@
 
 import Foundation
 
-struct PhotosDataModel: Decodable {
+struct PhotosModel: Decodable {
     let response: Response
     
     struct Response: Decodable {

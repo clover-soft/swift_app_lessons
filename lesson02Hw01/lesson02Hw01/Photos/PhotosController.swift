@@ -53,7 +53,7 @@ class PhotosController: UICollectionViewController, UICollectionViewDelegateFlow
         let paddingSpace = sectionInsets.left * (itemsPerRow + 1)
         let availableWidth = collectionView.frame.width - paddingSpace
         let widthPerItem = availableWidth / itemsPerRow
-        
+        APIManager.shared.getData(for: .photos)
         return CGSize(width: widthPerItem, height: widthPerItem)
     }
     
