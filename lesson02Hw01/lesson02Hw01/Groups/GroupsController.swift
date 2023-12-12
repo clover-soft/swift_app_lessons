@@ -14,6 +14,7 @@ class GroupsController: UITableViewController {
         tableView.backgroundColor = .white
         navigationController?.navigationBar.tintColor = .black
         navigationController?.navigationBar.barTintColor = .white
+        APIManager.shared.getData(for: .groups)
     }
     
     
