@@ -9,8 +9,6 @@ import UIKit
 import WebKit
 
 class ViewController: UIViewController {
-    var token: String?
-    var userId: String?
     
     private let webView: WKWebView = {
         let webView = WKWebView(frame: .zero)
