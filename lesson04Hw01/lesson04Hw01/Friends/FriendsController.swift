@@ -19,11 +19,13 @@ class FriendsController: UITableViewController {
         
         APIManager.shared.getData(for: .friends) { [weak self] friends in
             guard let friends = friends as? [FriendsModel.Response.Friend] else {
+                print("error friends")
                 return
             }
             self?.data = friends
             DispatchQueue.main.async {
                 print("reload data  friends")
+                print(friends)
                 self?.tableView.reloadData()
             }
         }

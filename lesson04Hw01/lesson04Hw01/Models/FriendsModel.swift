@@ -1,28 +1,25 @@
-//
-//  FriendsDataModel.swift
-//  lesson03Hw01
-//
-//  Created by yakov on 12.12.2023.
-//
-
 import Foundation
-struct FriendsModel: Decodable {
+
+struct FriendsModel: Codable {
     let response: Response
     
-    struct Response: Decodable {
+    struct Response: Codable {
+        let count: Int
         let items: [Friend]
         
-        struct Friend: Decodable {
+        struct Friend: Codable {
+            let id: Int
             let firstName: String
             let lastName: String
-            let photo: String
             let online: Int
+            let photo: String
             
-            enum CodingKeys: String, CodingKey {
+            private enum CodingKeys: String, CodingKey {
+                case id
                 case firstName = "first_name"
                 case lastName = "last_name"
-                case photo = "photo_50"
                 case online
+                case photo = "photo_50"
             }
         }
     }

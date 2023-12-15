@@ -38,7 +38,7 @@ final class APIManager {
         
         switch request {
         case .friends:
-            urlString = "https://api.vk.com/method/friends.get?fields=nickname,photo_50&access_token=\(APIManager.token)&v=5.199"
+            urlString = "https://api.vk.com/method/friends.get?fields=nickname,photo_50,online&access_token=\(APIManager.token)&v=5.199"
 //            dataType = FriendsModel.self
         case .groups:
             urlString = "https://api.vk.com/method/groups.get?extended=1&access_token=\(APIManager.token)&v=5.199"

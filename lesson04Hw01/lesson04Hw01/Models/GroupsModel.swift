@@ -1,25 +1,26 @@
-//
-//  GroupsModel.swift
-//  lesson03Hw01
-//
-//  Created by yakov on 12.12.2023.
-//
-
-import Foundation
-struct GroupsModel: Decodable {
-    let response: Response
-    
-    struct Response: Decodable {
-        let items: [Group]
-        
-        struct Group: Decodable {
-            let name: String
-            let photo: String
-            
-            enum CodingKeys: String, CodingKey {
-                case name
-                case photo = "photo_50"
-            }
-        }
+struct GroupsModel: Codable {
+  let response: Response
+  
+  struct Response: Codable {
+    let count: Int
+    let items: [Group]
+     
+    struct Group: Codable {
+      let id: Int
+      let name: String
+      let description: String
+      let membersCount: Int
+      let photo: String
+      let deactivated: String?
+       
+      private enum CodingKeys: String, CodingKey {
+        case id
+        case name
+        case description
+        case membersCount = "members_count"
+        case photo = "photo_100"
+        case deactivated
+      }
     }
+  }
 }
