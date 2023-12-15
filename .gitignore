@@ -4,7 +4,7 @@
 build/
 
 # Ignore the Xcode project file
-*.xcodeproj/
+# *.xcodeproj/
 
 # Ignore the Xcode workspace file
 *.xcworkspace/
