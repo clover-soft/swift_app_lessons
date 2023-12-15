@@ -24,10 +24,12 @@ class GroupsController: UITableViewController {
         navigationController?.navigationBar.barTintColor = .white
         APIManager.shared.getData(for: .groups) { [weak self] groups in
             guard let groups = groups as? [GroupsModel.Response.Group] else {
+                print("error groups")
                 return
             }
             self?.data = groups
             DispatchQueue.main.async {
+                print("reload data  groups")
                 self?.tableView.reloadData()
             }
         }

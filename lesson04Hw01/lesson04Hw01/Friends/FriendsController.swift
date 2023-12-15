@@ -25,7 +25,6 @@ class FriendsController: UITableViewController {
             self?.data = friends
             DispatchQueue.main.async {
                 print("reload data  friends")
-                print(friends)
                 self?.tableView.reloadData()
             }
         }
