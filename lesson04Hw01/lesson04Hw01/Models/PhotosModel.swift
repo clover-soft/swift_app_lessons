@@ -1,5 +1,3 @@
-import Foundation
-
 struct PhotosModel: Decodable {
     let response: Response
     
@@ -10,7 +8,7 @@ struct PhotosModel: Decodable {
             let sizes: [Size]
             
             struct Size: Decodable {
-                let url: String?
+                let url: String
                 
             }
         }

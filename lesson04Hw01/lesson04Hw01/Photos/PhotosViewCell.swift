@@ -1,49 +1,62 @@
 import UIKit
 
 class PhotosViewCell: UICollectionViewCell {
-    private let containerView = UIView()
-    private let imageView = UIImageView()
+    // UIImageView для отображения фотографии.
+    private let photoImageView = UIImageView()
     
+    // Инициализатор для создания ячейки через код.
     override init(frame: CGRect) {
         super.init(frame: frame)
+        setupViews()
+    }
+    
+    // Инициализатор для создания ячейки через Interface Builder или Storyboard.
+    required init?(coder: NSCoder) {
+        super.init(coder: coder)
+        setupViews()
+    }
+    
+    // Метод для настройки внешнего вида ячейки.
+    private func setupViews() {
+        // Отключение авто-констрейнтов для photoImageView,
+        // чтобы можно было установить свои констрейнты в коде.
+        photoImageView.translatesAutoresizingMaskIntoConstraints = false
+        // Добавление photoImageView в contentView ячейки.
+        contentView.addSubview(photoImageView)
         
-        // Настройка внешнего вида ячейки
-        contentView.backgroundColor = .lightGray
-        contentView.layer.cornerRadius = 8
-        contentView.layer.borderWidth = 1
-        contentView.layer.borderColor = UIColor.darkGray.cgColor
-        
-        containerView.backgroundColor = .darkGray
-        containerView.translatesAutoresizingMaskIntoConstraints = false
-        contentView.addSubview(containerView)
-        
-        imageView.contentMode = .scaleAspectFit
-        imageView.translatesAutoresizingMaskIntoConstraints = false
-        containerView.addSubview(imageView)
-        
+        // Активация констрейнтов для photoImageView, чтобы она заполняла всё доступное пространство ячейки.
         NSLayoutConstraint.activate([
-            containerView.leadingAnchor.constraint(equalTo: contentView.leadingAnchor, constant: 8),
-            containerView.trailingAnchor.constraint(equalTo: contentView.trailingAnchor, constant: -8),
-            containerView.topAnchor.constraint(equalTo: contentView.topAnchor, constant: 8),
-            containerView.bottomAnchor.constraint(equalTo: contentView.bottomAnchor, constant: -8),
-            
-            imageView.centerXAnchor.constraint(equalTo: containerView.centerXAnchor),
-            imageView.centerYAnchor.constraint(equalTo: containerView.centerYAnchor),
-            imageView.widthAnchor.constraint(equalTo: containerView.widthAnchor, multiplier: 0.5),
-            imageView.heightAnchor.constraint(equalTo: containerView.heightAnchor, multiplier: 0.5)
+            photoImageView.topAnchor.constraint(equalTo: contentView.topAnchor),
+            photoImageView.bottomAnchor.constraint(equalTo: contentView.bottomAnchor),
+            photoImageView.leadingAnchor.constraint(equalTo: contentView.leadingAnchor),
+            photoImageView.trailingAnchor.constraint(equalTo: contentView.trailingAnchor)
         ])
+        
+        // Установка режима масштабирования содержимого изображения и обрезания его по границам ячейки.
+        photoImageView.contentMode = .scaleAspectFill
+        photoImageView.clipsToBounds = true
     }
     
-    required init?(coder aDecoder: NSCoder) {
-        fatalError("init(coder:) has not been implemented")
-    }
-    
-    func configure(with image: UIImage?) {
-        if let image = image {
-            imageView.image = image
+    // Метод для конфигурации ячейки с использованием данных о фотографии.
+    public func configureWithPhoto(with photo: PhotosModel.Response.Photo) {
+        // Сначала очистите текущее изображение, чтобы предотвратить отображение неправильного изображения из-за переиспользования ячеек.
+        photoImageView.image = nil
+        
+        // Проверяем, есть ли URL первого изображения в массиве sizes и создаем URL.
+        if let urlString = photo.sizes.first?.url, let url = URL(string: urlString) {
+            // Асинхронная загрузка изображения с использованием URLSession.
+            URLSession.shared.dataTask(with: url) { [weak self] data, response, error in
+                // Проверяем наличие данных и создаем изображение.
+                if let data = data, let image = UIImage(data: data) {
+                    DispatchQueue.main.async {
+                        // Устанавливаем загруженное изображение в photoImageView.
+                        self?.photoImageView.image = image
+                    }
+                }
+            }.resume()
         } else {
-            let cameraImage = UIImage(systemName: "camera")?.withTintColor(.lightGray, renderingMode: .alwaysOriginal)
-            imageView.image = cameraImage
+            // Если URL нет, устанавливаем изображение-заполнитель.
+            photoImageView.image = UIImage(named: "placeholder")
         }
     }
 }

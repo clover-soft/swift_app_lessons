@@ -41,7 +41,8 @@ final class APIManager {
         case .groups:
             urlString = "https://api.vk.com/method/groups.get?extended=1&access_token=\(APIManager.token)&v=5.199"
         case .photos:
-            urlString = "https://api.vk.com/method/photos.get?owner_id=\(APIManager.userId)&access_token=\(APIManager.token)&v=5.199&album_id=profile"
+//            urlString = "https://api.vk.com/method/photos.get?owner_id=\(APIManager.userId)&access_token=\(APIManager.token)&v=5.199&album_id=profile"
+            urlString = "https://api.vk.com/method/photos.getAll?owner_id=\(APIManager.userId)&access_token=\(APIManager.token)&v=5.199"
         }
         
         guard let url = URL(string: urlString) else {
@@ -59,6 +60,12 @@ final class APIManager {
         }
         
         session.dataTask(with: url) { data, response, error in
+            if let error = error {
+                print("Networking error: \(error.localizedDescription)")
+                completion(nil)
+                return
+            }
+            
             guard let data = data else {
                 completion(nil)
                 return
@@ -69,20 +76,23 @@ final class APIManager {
                 case .friends:
                     let decodedData = try JSONDecoder().decode(FriendsModel.self, from: data)
                     completion(decodedData.response.items)
-                    break
                 case .groups:
                     let decodedData = try JSONDecoder().decode(GroupsModel.self, from: data)
                     completion(decodedData.response.items)
-                    break
                 case .photos:
-                    var json = try JSONSerialization.jsonObject(with: data, options: [])
-                    print(json)
                     let decodedData = try JSONDecoder().decode(PhotosModel.self, from: data)
                     completion(decodedData.response.items)
-                    break
                 }
             } catch {
-                print(error)
+                print("JSON decoding error: \(error)")
+                
+                // Декодируем содержимое ошибки от VK API.
+                if let apiError = try? JSONDecoder().decode(VKApiErrorModel.self, from: data) {
+                    print("VK API Error: \(apiError.error.errorMessage)")
+                } else {
+                    print("Error: Unable to decode VK API error.")
+                }
+                
                 completion(nil)
             }
             
