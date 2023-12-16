@@ -1,50 +1,35 @@
-//
-//  FriendsViewCell.swift
-//  lesson02Hw01
-//
-//  Created by yakov on 27.11.2023.
-//
-
 import UIKit
 
-final class FriendsViewCell: UITableViewCell {
-
-    private var circle: UIView = {
-        let circle = UIView()
-        circle.backgroundColor = .darkGray
-        circle.layer.cornerRadius = 30
-        circle.clipsToBounds = true
-        
+class FriendsViewCell: UITableViewCell {
+    
+    let profileImageView: UIImageView = {
         let imageView = UIImageView(image: UIImage(systemName: "person"))
-        imageView.tintColor = .lightGray
-        imageView.contentMode = .scaleAspectFit
-        imageView.translatesAutoresizingMaskIntoConstraints = false
-        circle.addSubview(imageView)
-        
-        NSLayoutConstraint.activate([
-            imageView.centerXAnchor.constraint(equalTo: circle.centerXAnchor),
-            imageView.centerYAnchor.constraint(equalTo: circle.centerYAnchor),
-//            imageView.widthAnchor.constraint(equalTo: circle.widthAnchor),
-//            imageView.heightAnchor.constraint(equalTo: circle.heightAnchor)
-            imageView.widthAnchor.constraint(equalToConstant: 40), // Increase the width
-            imageView.heightAnchor.constraint(equalToConstant: 40) // Increase the height
-     
-        ])
-        
-        return circle
+        imageView.contentMode = .scaleAspectFill
+        imageView.clipsToBounds = true
+        imageView.layer.cornerRadius = 25 // Радиус зависит от размера вашего изображения
+        imageView.layer.masksToBounds = true
+        imageView.tintColor = .gray // Цвет иконки
+        return imageView
     }()
 
-    private var text1: UILabel = {
+    
+    let nameLabel: UILabel = {
         let label = UILabel()
-        label.text = "Friend"
+        label.font = UIFont.systemFont(ofSize: 18, weight: .medium)
         label.textColor = .black
-        label.font = UIFont.systemFont(ofSize: 20)
         return label
     }()
-        
+    
+    let statusIndicatorView: UIView = {
+        let view = UIView()
+        view.layer.cornerRadius = 5
+        view.layer.masksToBounds = true
+        return view
+    }()
+    
+    // Инициализаторы
     override init(style: UITableViewCell.CellStyle, reuseIdentifier: String?) {
         super.init(style: style, reuseIdentifier: reuseIdentifier)
-        backgroundColor = .clear
         setupViews()
     }
     
@@ -53,26 +38,53 @@ final class FriendsViewCell: UITableViewCell {
     }
     
     private func setupViews() {
-        contentView.addSubview(circle)
-        contentView.addSubview(text1)
-        setupConstraints()
+        addSubview(profileImageView)
+        addSubview(nameLabel)
+        addSubview(statusIndicatorView)
+        
+        // Установка Auto Layout
+        profileImageView.translatesAutoresizingMaskIntoConstraints = false
+        nameLabel.translatesAutoresizingMaskIntoConstraints = false
+        statusIndicatorView.translatesAutoresizingMaskIntoConstraints = false
+        
+        // Расстановка констрейнтов
+        NSLayoutConstraint.activate([
+            profileImageView.leadingAnchor.constraint(equalTo: self.leadingAnchor, constant: 10),
+            profileImageView.topAnchor.constraint(greaterThanOrEqualTo: self.topAnchor, constant: 5), // Отступ сверху
+            profileImageView.bottomAnchor.constraint(lessThanOrEqualTo: self.bottomAnchor, constant: -5), // Отступ снизу
+            profileImageView.widthAnchor.constraint(equalToConstant: 50), // Размеры фотографии
+            profileImageView.heightAnchor.constraint(equalToConstant: 50),
+             
+            nameLabel.leadingAnchor.constraint(equalTo: profileImageView.trailingAnchor, constant: 10),
+            nameLabel.centerYAnchor.constraint(equalTo: self.centerYAnchor),
+             
+            statusIndicatorView.trailingAnchor.constraint(equalTo: self.trailingAnchor, constant: -10),
+            statusIndicatorView.centerYAnchor.constraint(equalTo: self.centerYAnchor),
+            statusIndicatorView.widthAnchor.constraint(equalToConstant: 10), // Размеры индикатора статуса
+            statusIndicatorView.heightAnchor.constraint(equalToConstant: 10)
+        ])
     }
     
-    private func setupConstraints() {
-        circle.translatesAutoresizingMaskIntoConstraints = false
-        text1.translatesAutoresizingMaskIntoConstraints = false
-         
-        NSLayoutConstraint.activate([
-            circle.topAnchor.constraint(equalTo: contentView.topAnchor, constant: 5),
-            circle.centerYAnchor.constraint(equalTo: contentView.centerYAnchor),
-            circle.leadingAnchor.constraint(equalTo: contentView.leadingAnchor, constant: 10),
-            circle.heightAnchor.constraint(equalToConstant: 60),
-            circle.widthAnchor.constraint(equalTo: circle.heightAnchor),
-            circle.bottomAnchor.constraint(equalTo: contentView.bottomAnchor, constant: -5),
+    // Метод для конфигурации ячейки данными
+    func configureWithFriend(_ friend: FriendsModel.Response.Friend) {
+        nameLabel.text = friend.firstName + " " + friend.lastName
 
-            text1.centerYAnchor.constraint(equalTo: circle.centerYAnchor),
-            text1.leadingAnchor.constraint(equalTo: circle.trailingAnchor, constant: 10),
-            text1.trailingAnchor.constraint(equalTo: contentView.trailingAnchor, constant: 10),
-        ])
+        // Асинхронная загрузка изображения
+        if let url = URL(string: friend.photo) {
+            URLSession.shared.dataTask(with: url) { data, response, error in
+                if let data = data, let image = UIImage(data: data) {
+                    DispatchQueue.main.async {
+                        self.profileImageView.image = image
+                    }
+                }
+            }.resume()
+        }
+        
+        // Установка индикатора статуса
+        if friend.online == 1 {
+            statusIndicatorView.backgroundColor = .green
+        } else {
+            statusIndicatorView.backgroundColor = .gray
+        }
     }
 }

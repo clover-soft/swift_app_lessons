@@ -1,46 +1,55 @@
-//
-//  FriendsController.swift
-//  lesson02Hw01
-//
-//  Created by yakov on 27.11.2023.
-//
-
 import UIKit
 
 class FriendsController: UITableViewController {
     private var data = [FriendsModel.Response.Friend]()
-    override func viewDidLoad() {        super.viewDidLoad()
+    
+    override func viewDidLoad() {
+        super.viewDidLoad()
+        setupTableView()
+        loadFriendsData()
+    }
+    
+    private func setupTableView() {
         view.backgroundColor = .white
         tableView.backgroundColor = .white
         title = "Друзья"
         navigationController?.navigationBar.tintColor = .black
         navigationController?.navigationBar.barTintColor = .white
-        
-        
+        tableView.register(FriendsViewCell.self, forCellReuseIdentifier: "FriendsViewCell")
+        // Настройка Refresh Control
+        refreshControl?.addTarget(self, action: #selector(refreshFriendData(_:)), for: .valueChanged)
+    }
+    
+    @objc private func refreshFriendData(_ sender: Any) {
+        // Обновление данных
+        loadFriendsData()
+    }
+    
+    private func loadFriendsData() {
         APIManager.shared.getData(for: .friends) { [weak self] friends in
-            guard let friends = friends as? [FriendsModel.Response.Friend] else {
+            guard let self = self, let friends = friends as? [FriendsModel.Response.Friend] else {
+                self?.refreshControl?.endRefreshing() // Остановка анимации обновления в случае ошибки
                 print("error friends")
                 return
             }
-            self?.data = friends
+            self.data = friends
             DispatchQueue.main.async {
-                print("reload data  friends")
-                self?.tableView.reloadData()
+                self.tableView.reloadData()
+                self.refreshControl?.endRefreshing() // Остановка анимации обновления
             }
         }
     }
     
-    
     override func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
-        5
+        return data.count
     }
     
     override func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
-        FriendsViewCell()
-    }
-    
-    override func viewWillAppear(_ animated: Bool) {
-         super.viewWillAppear(animated)
-         self.navigationItem.title = "Друзья"
+        guard let cell = tableView.dequeueReusableCell(withIdentifier: "FriendsViewCell", for: indexPath) as? FriendsViewCell else {
+            return UITableViewCell()
+        }
+        cell.configureWithFriend(data[indexPath.row])
+        // Возвращаем ячейку с данными друга
+        return cell
     }
 }

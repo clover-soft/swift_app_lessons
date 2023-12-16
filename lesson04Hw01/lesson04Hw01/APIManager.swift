@@ -34,18 +34,14 @@ final class APIManager {
     
     private func getRequestUrl(for request: Requests) -> URL? {
         var urlString = ""
-//        var dataType: Any.Type
         
         switch request {
         case .friends:
             urlString = "https://api.vk.com/method/friends.get?fields=nickname,photo_50,online&access_token=\(APIManager.token)&v=5.199"
-//            dataType = FriendsModel.self
         case .groups:
             urlString = "https://api.vk.com/method/groups.get?extended=1&access_token=\(APIManager.token)&v=5.199"
-//            dataType = GroupsModel.self
         case .photos:
-            urlString = "https://api.vk.com/method/photos.getAll?owner_id=\(APIManager.userId)&access_token=\(APIManager.token)&v=5.199"
-//            dataType = PhotosModel.self
+            urlString = "https://api.vk.com/method/photos.get?owner_id=\(APIManager.userId)&access_token=\(APIManager.token)&v=5.199&album_id=profile"
         }
         
         guard let url = URL(string: urlString) else {
@@ -79,6 +75,8 @@ final class APIManager {
                     completion(decodedData.response.items)
                     break
                 case .photos:
+                    var json = try JSONSerialization.jsonObject(with: data, options: [])
+                    print(json)
                     let decodedData = try JSONDecoder().decode(PhotosModel.self, from: data)
                     completion(decodedData.response.items)
                     break
