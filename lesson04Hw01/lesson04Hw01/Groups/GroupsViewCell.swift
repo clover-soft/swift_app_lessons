@@ -1,92 +1,98 @@
-//
-//  GroupsViewCell.swift
-//  lesson02Hw01
-//
-//  Created by yakov on 27.11.2023.
-//
-
-import Foundation
 import UIKit
 
-final class GroupsViewCell: UITableViewCell {
+class GroupsViewCell: UITableViewCell {
 
-    private var circle: UIView = {
-        let circle = UIView()
-        circle.backgroundColor = .darkGray
-        circle.layer.cornerRadius = 30
-        circle.clipsToBounds = true
-        
-        let imageView = UIImageView(image: UIImage(systemName: "person.3"))
-        imageView.tintColor = .lightGray
-        imageView.contentMode = .scaleAspectFit
+    private let groupImageView: UIImageView = {
+        let imageView = UIImageView()
+        imageView.contentMode = .scaleAspectFill
+        imageView.clipsToBounds = true
+        imageView.layer.cornerRadius = 25 // половина высоты изображения
         imageView.translatesAutoresizingMaskIntoConstraints = false
-        circle.addSubview(imageView)
-        
-        NSLayoutConstraint.activate([
-            imageView.centerXAnchor.constraint(equalTo: circle.centerXAnchor),
-            imageView.centerYAnchor.constraint(equalTo: circle.centerYAnchor),
-//            imageView.widthAnchor.constraint(equalTo: circle.widthAnchor),
-//            imageView.heightAnchor.constraint(equalTo: circle.heightAnchor)
-            imageView.widthAnchor.constraint(equalToConstant: 40), // Increase the width
-            imageView.heightAnchor.constraint(equalToConstant: 40) // Increase the height
-     
-        ])
-        
-        return circle
+        return imageView
     }()
 
-    private var groupTitle: UILabel = {
+    private let nameLabel: UILabel = {
         let label = UILabel()
-        label.text = "Group name"
-        label.textColor = .darkGray
-        label.font = UIFont.systemFont(ofSize: 20)
+        label.font = UIFont.systemFont(ofSize: 16, weight: .bold)
+        label.translatesAutoresizingMaskIntoConstraints = false
         return label
     }()
-    
-    private var groupDescription: UILabel = {
+
+    private let descriptionLabel: UILabel = {
         let label = UILabel()
-        label.text = "group description"
-        label.textColor = .lightGray
-        label.font = UIFont.systemFont(ofSize: 20)
+        label.font = UIFont.systemFont(ofSize: 14)
+        label.textColor = .gray
+        label.numberOfLines = 0
+        label.translatesAutoresizingMaskIntoConstraints = false
         return label
     }()
+
     override init(style: UITableViewCell.CellStyle, reuseIdentifier: String?) {
         super.init(style: style, reuseIdentifier: reuseIdentifier)
-        backgroundColor = .clear
         setupViews()
     }
     
-    required init?(coder: NSCoder) {
+    required init?(coder aDecoder: NSCoder) {
         fatalError("init(coder:) has not been implemented")
     }
     
     private func setupViews() {
-        contentView.addSubview(circle)
-        contentView.addSubview(groupTitle)
-        contentView.addSubview(groupDescription)
-        setupConstraints()
+        addSubview(groupImageView)
+        addSubview(nameLabel)
+        addSubview(descriptionLabel)
+
+//        NSLayoutConstraint.activate([
+//            groupImageView.leadingAnchor.constraint(equalTo: leadingAnchor, constant: 16),
+//            groupImageView.topAnchor.constraint(equalTo: topAnchor, constant: 8),
+//            groupImageView.bottomAnchor.constraint(equalTo: bottomAnchor, constant: -8),
+//            groupImageView.widthAnchor.constraint(equalToConstant: 50),
+//            groupImageView.heightAnchor.constraint(equalToConstant: 50),
+//            
+//            nameLabel.leadingAnchor.constraint(equalTo: groupImageView.trailingAnchor, constant: 12),
+//            nameLabel.trailingAnchor.constraint(equalTo: trailingAnchor, constant: -16),
+//            nameLabel.topAnchor.constraint(equalTo: groupImageView.topAnchor),
+//            
+//        ])
+        NSLayoutConstraint.activate([
+            contentView.heightAnchor.constraint(greaterThanOrEqualToConstant: 70),
+            groupImageView.leadingAnchor.constraint(equalTo: contentView.leadingAnchor, constant: 10),
+            groupImageView.topAnchor.constraint(equalTo: contentView.topAnchor, constant: 10), // Отступ сверху
+            groupImageView.bottomAnchor.constraint(equalTo: contentView.bottomAnchor, constant: -10), // Отступ снизу
+            groupImageView.widthAnchor.constraint(equalToConstant: 50), // Размеры фотографии
+            groupImageView.heightAnchor.constraint(equalToConstant: 50),
+
+            nameLabel.leadingAnchor.constraint(equalTo: groupImageView.trailingAnchor, constant: 10),
+            nameLabel.trailingAnchor.constraint(lessThanOrEqualTo: contentView.trailingAnchor, constant: -10),
+            nameLabel.topAnchor.constraint(equalTo: groupImageView.topAnchor),
+
+            descriptionLabel.leadingAnchor.constraint(equalTo: nameLabel.leadingAnchor),
+            descriptionLabel.trailingAnchor.constraint(equalTo: nameLabel.trailingAnchor),
+            descriptionLabel.topAnchor.constraint(equalTo: nameLabel.bottomAnchor, constant: 5),
+            descriptionLabel.bottomAnchor.constraint(lessThanOrEqualTo: contentView.bottomAnchor, constant: -5)
+        ])
     }
     
-    private func setupConstraints() {
-        circle.translatesAutoresizingMaskIntoConstraints = false
-        groupTitle.translatesAutoresizingMaskIntoConstraints = false
-        groupDescription.translatesAutoresizingMaskIntoConstraints = false
-
-        NSLayoutConstraint.activate([
-            circle.topAnchor.constraint(equalTo: contentView.topAnchor, constant: 5),
-            circle.centerYAnchor.constraint(equalTo: contentView.centerYAnchor),
-            circle.leadingAnchor.constraint(equalTo: contentView.leadingAnchor, constant: 10),
-            circle.heightAnchor.constraint(equalToConstant: 60),
-            circle.widthAnchor.constraint(equalTo: circle.heightAnchor),
-            circle.bottomAnchor.constraint(equalTo: contentView.bottomAnchor, constant: -5),
-
-            groupTitle.topAnchor.constraint(equalTo: contentView.topAnchor, constant: 8),
-            groupTitle.leadingAnchor.constraint(equalTo: circle.trailingAnchor, constant: 10),
-            groupTitle.trailingAnchor.constraint(equalTo: contentView.trailingAnchor, constant: 10),
-            
-            groupDescription.topAnchor.constraint(equalTo: groupTitle.bottomAnchor, constant: 2),
-            groupDescription.leadingAnchor.constraint(equalTo: circle.trailingAnchor, constant: 10),
-            groupDescription.trailingAnchor.constraint(equalTo: contentView.trailingAnchor, constant: 10),
-        ])
+    func configureWithGroup(_ group: GroupsModel.Response.Group) {
+        nameLabel.text = group.name
+        descriptionLabel.text = group.name
+        
+        // Асинхронная загрузка изображения
+        if let url = URL(string: group.photo) {
+            URLSession.shared.dataTask(with: url) { data, response, error in
+                if let data = data, let image = UIImage(data: data) {
+                    DispatchQueue.main.async {
+                        self.groupImageView.image = image
+                    }
+                }
+            }.resume()
+        }
+    }
+    
+    override func prepareForReuse() {
+        super.prepareForReuse()
+        // Сброс изображения и текста для переиспользуемой ячейки.
+        groupImageView.image = nil
+        nameLabel.text = nil
+        descriptionLabel.text = nil
     }
 }

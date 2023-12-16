@@ -1,46 +1,61 @@
-//
-//  GroupController.swift
-//  lesson04Hw01
-//
-//  Created by yakov on 15.12.2023.
-//
-
-import Foundation
-//
-//  GroupsController.swift
-//  lesson02Hw01
-//
-//  Created by yakov on 27.11.2023.
-//
-
 import UIKit
 
 class GroupsController: UITableViewController {
+    
     private var data = [GroupsModel.Response.Group]()
-    override func viewDidLoad() {        super.viewDidLoad()
+    private let refresh = UIRefreshControl()
+
+    override func viewDidLoad() {
+        super.viewDidLoad()
+        
+        setupTableView()
+        loadFriendsData()
+    }
+    
+    private func setupTableView() {
+        tableView.register(GroupsViewCell.self, forCellReuseIdentifier: "GroupsViewCellIdentifier")
+        tableView.refreshControl = refresh
+        refresh.addTarget(self, action: #selector(loadFriendsData), for: .valueChanged)
+        
         view.backgroundColor = .white
         tableView.backgroundColor = .white
         navigationController?.navigationBar.tintColor = .black
         navigationController?.navigationBar.barTintColor = .white
+    }
+    
+    @objc private func loadFriendsData() {
         APIManager.shared.getData(for: .groups) { [weak self] groups in
+            DispatchQueue.main.async {
+                self?.refresh.endRefreshing() // End the refreshing animation
+            }
+            
             guard let groups = groups as? [GroupsModel.Response.Group] else {
                 print("error groups")
                 return
             }
+            
             self?.data = groups
             DispatchQueue.main.async {
-                print("reload data  groups")
+                print("reload data groups")
                 self?.tableView.reloadData()
             }
         }
     }
     
-    
     override func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
-        5
+        return data.count
     }
     
     override func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
-        GroupsViewCell()
+        guard let cell = tableView.dequeueReusableCell(withIdentifier: "GroupsViewCellIdentifier", for: indexPath) as? GroupsViewCell else {
+            fatalError("Could not dequeue GroupsViewCell")
+        }
+        
+        let group = data[indexPath.row]
+        // Assuming that GroupsViewCell has a method configureWithGroup(_:)
+        cell.configureWithGroup(group)
+        return cell
     }
+    
+    // Add other UITableViewDelegate and UITableViewDataSource methods if necessary
 }

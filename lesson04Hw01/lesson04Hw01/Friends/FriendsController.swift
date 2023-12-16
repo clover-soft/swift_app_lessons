@@ -2,6 +2,7 @@ import UIKit
 
 class FriendsController: UITableViewController {
     private var data = [FriendsModel.Response.Friend]()
+    private let refresh = UIRefreshControl()
     
     override func viewDidLoad() {
         super.viewDidLoad()
@@ -11,6 +12,7 @@ class FriendsController: UITableViewController {
     
     private func setupTableView() {
         view.backgroundColor = .white
+        tableView.refreshControl = refresh
         tableView.backgroundColor = .white
         title = "Друзья"
         navigationController?.navigationBar.tintColor = .black
@@ -34,6 +36,7 @@ class FriendsController: UITableViewController {
             }
             self.data = friends
             DispatchQueue.main.async {
+                print("reload data fruends")
                 self.tableView.reloadData()
                 self.refreshControl?.endRefreshing() // Остановка анимации обновления
             }
