@@ -6,7 +6,7 @@ class FriendsViewCell: UITableViewCell {
         let imageView = UIImageView(image: UIImage(systemName: "person"))
         imageView.contentMode = .scaleAspectFill
         imageView.clipsToBounds = true
-        imageView.layer.cornerRadius = 25 // Радиус зависит от размера вашего изображения
+        imageView.layer.cornerRadius = 25
         imageView.layer.masksToBounds = true
         imageView.tintColor = .gray // Цвет иконки
         return imageView

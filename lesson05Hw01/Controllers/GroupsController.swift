@@ -1,6 +1,6 @@
 import UIKit
 
-class GroupsController: UITableViewController {
+final class GroupsController: UITableViewController {
     
     private var data = [GroupsModel.Response.Group]()
     private let refresh = UIRefreshControl()

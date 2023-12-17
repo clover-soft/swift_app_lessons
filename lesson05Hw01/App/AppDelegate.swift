@@ -1,10 +1,3 @@
-//
-//  AppDelegate.swift
-//  lesson05Hw01
-//
-//  Created by yakov on 16.12.2023.
-//
-
 import UIKit
 
 @main

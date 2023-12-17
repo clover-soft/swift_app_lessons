@@ -24,6 +24,7 @@ final class APIManager {
         case friends
         case groups
         case photos
+        case profile
     }
     
     static let shared = APIManager()
@@ -40,6 +41,8 @@ final class APIManager {
             urlString = "https://api.vk.com/method/friends.get?fields=nickname,photo_50,online&access_token=\(APIManager.token)&v=5.199"
         case .groups:
             urlString = "https://api.vk.com/method/groups.get?extended=1&access_token=\(APIManager.token)&v=5.199"
+        case .profile:
+            urlString =  "https://api.vk.com/method/users.get?fields=photo_200&owner_id=\(APIManager.userId)&access_token=\(APIManager.token)&v=5.199"
         case .photos:
             urlString = "https://api.vk.com/method/photos.get?owner_id=\(APIManager.userId)&access_token=\(APIManager.token)&v=5.199&album_id=profile"
 //            urlString = "https://api.vk.com/method/photos.getAll?owner_id=\(APIManager.userId)&access_token=\(APIManager.token)&v=5.199"
@@ -82,6 +85,10 @@ final class APIManager {
                 case .photos:
                     let decodedData = try JSONDecoder().decode(PhotosModel.self, from: data)
                     completion(decodedData.response.items)
+                case .profile:
+                    let decodedData = try JSONDecoder().decode(UserModel.self, from: data)
+                    completion(decodedData.response)
+
                 }
             } catch {
                 print("JSON decoding error: \(error)")

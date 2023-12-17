@@ -1,10 +1,11 @@
 import UIKit
 
-class TabBarController: UITabBarController, UITabBarControllerDelegate {
+final class TabBarController: UITabBarController, UITabBarControllerDelegate, UIViewControllerTransitioningDelegate {
     
     private let friendsController = FriendsController()
     private let groupsController = GroupsController()
     private let photosController = PhotosController()
+    private let profileController = ProfileController()
     override func viewDidLoad() {
         super.viewDidLoad()
         self.delegate = self
@@ -24,12 +25,18 @@ class TabBarController: UITabBarController, UITabBarControllerDelegate {
             image: UIImage(systemName: "photo.on.rectangle.angled"),
             selectedImage: nil
         )
+        profileController.tabBarItem = UITabBarItem(
+            title: "Профиль",
+            image: UIImage(systemName: "person.crop.circle"),
+            selectedImage: nil
+        )
+
         UITabBarItem.appearance().setTitleTextAttributes([
             NSAttributedString.Key.font: UIFont.systemFont(ofSize: 18),
         ], for: .normal)
         
         // Добавляем контроллеры в массив табов
-        viewControllers = [friendsController, groupsController, photosController]
+        viewControllers = [friendsController, groupsController, photosController, profileController]
 
         // Установим текущий заголовок
         updateTitle(for: selectedViewController)
@@ -45,4 +52,13 @@ class TabBarController: UITabBarController, UITabBarControllerDelegate {
       title = viewController?.tabBarItem.title
     }
     
+    func tabBarController(_ tabBarController: UITabBarController, animationControllerForTransitionFrom fromVC: UIViewController, to toVC: UIViewController) -> UIViewControllerAnimatedTransitioning? {
+//        if toVC is ProfileController || fromVC is ProfileController {
+//            return ProfileTransitionAnimator()
+//        }
+        if toVC is ProfileController {
+            return ProfileTransitionAnimator()
+        }
+        return nil
+    }
 }

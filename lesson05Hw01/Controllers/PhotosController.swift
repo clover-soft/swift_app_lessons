@@ -1,6 +1,6 @@
 import UIKit
 
-class PhotosController: UICollectionViewController, UICollectionViewDelegateFlowLayout {
+final class PhotosController: UICollectionViewController, UICollectionViewDelegateFlowLayout {
     private var data = [PhotosModel.Response.Photo]()
     private let reuseIdentifier = "PhotoCell"
     private let sectionInsets = UIEdgeInsets(top: 10, left: 10, bottom: 10, right: 10)

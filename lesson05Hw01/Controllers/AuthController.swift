@@ -1,14 +1,7 @@
-//
-//  ViewController.swift
-//  lesson04Hw01
-//
-//  Created by yakov on 15.12.2023.
-//
-
 import UIKit
 import WebKit
 
-class AuthController: UIViewController {
+final class AuthController: UIViewController {
     
     private let webView: WKWebView = {
         let webView = WKWebView(frame: .zero)
@@ -35,7 +28,7 @@ class AuthController: UIViewController {
     }
 }
 
-extension ViewController: WKNavigationDelegate {
+extension AuthController: WKNavigationDelegate {
     func webView(_ webView: WKWebView, decidePolicyFor navigationResponse: WKNavigationResponse, decisionHandler: @escaping (WKNavigationResponsePolicy) -> Void) {
         guard let url = navigationResponse.response.url,
               url.path == "/blank.html", let fragment = url.fragment else {

@@ -1,6 +1,6 @@
 import UIKit
 
-class FriendsController: UITableViewController {
+final class FriendsController: UITableViewController {
     private var data = [FriendsModel.Response.Friend]()
     private let refresh = UIRefreshControl()
     

@@ -1,5 +1,3 @@
-import Foundation
-
 struct FriendsModel: Codable {
     let response: Response
     

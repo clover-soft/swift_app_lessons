@@ -1,5 +1,3 @@
-import Foundation
-
 // Модель для декодирования стандартного ответа об ошибке от API ВКонтакте.
 struct VKApiErrorModel: Decodable {
     let error: VKError
