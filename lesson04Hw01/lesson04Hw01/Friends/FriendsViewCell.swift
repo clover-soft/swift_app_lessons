@@ -38,9 +38,9 @@ class FriendsViewCell: UITableViewCell {
     }
     
     private func setupViews() {
-        addSubview(profileImageView)
-        addSubview(nameLabel)
-        addSubview(statusIndicatorView)
+        contentView.addSubview(profileImageView)
+        contentView.addSubview(nameLabel)
+        contentView.addSubview(statusIndicatorView)
         
         // Установка Auto Layout
         profileImageView.translatesAutoresizingMaskIntoConstraints = false
@@ -49,19 +49,19 @@ class FriendsViewCell: UITableViewCell {
         
         // Расстановка констрейнтов
         NSLayoutConstraint.activate([
-            profileImageView.leadingAnchor.constraint(equalTo: self.leadingAnchor, constant: 10),
-            profileImageView.topAnchor.constraint(greaterThanOrEqualTo: self.topAnchor, constant: 5), // Отступ сверху
-            profileImageView.bottomAnchor.constraint(lessThanOrEqualTo: self.bottomAnchor, constant: -5), // Отступ снизу
-            profileImageView.widthAnchor.constraint(equalToConstant: 50), // Размеры фотографии
-            profileImageView.heightAnchor.constraint(equalToConstant: 50),
-             
-            nameLabel.leadingAnchor.constraint(equalTo: profileImageView.trailingAnchor, constant: 10),
-            nameLabel.centerYAnchor.constraint(equalTo: self.centerYAnchor),
-             
-            statusIndicatorView.trailingAnchor.constraint(equalTo: self.trailingAnchor, constant: -10),
-            statusIndicatorView.centerYAnchor.constraint(equalTo: self.centerYAnchor),
-            statusIndicatorView.widthAnchor.constraint(equalToConstant: 10), // Размеры индикатора статуса
-            statusIndicatorView.heightAnchor.constraint(equalToConstant: 10)
+          contentView.heightAnchor.constraint(greaterThanOrEqualToConstant: 60),
+          profileImageView.leadingAnchor.constraint(equalTo: contentView.leadingAnchor, constant: 10),
+          profileImageView.centerYAnchor.constraint(equalTo: contentView.centerYAnchor), // Центрирование по вертикали внутри contentView
+          profileImageView.widthAnchor.constraint(equalToConstant: 50), // Ширина фотографии
+          profileImageView.heightAnchor.constraint(equalToConstant: 50), // Высота фотографии
+          
+          nameLabel.leadingAnchor.constraint(equalTo: profileImageView.trailingAnchor, constant: 10),
+          nameLabel.centerYAnchor.constraint(equalTo: contentView.centerYAnchor),
+          
+          statusIndicatorView.trailingAnchor.constraint(equalTo: contentView.trailingAnchor, constant: -10),
+          statusIndicatorView.centerYAnchor.constraint(equalTo: contentView.centerYAnchor),
+          statusIndicatorView.widthAnchor.constraint(equalToConstant: 10), // Ширина индикатора статуса
+          statusIndicatorView.heightAnchor.constraint(equalToConstant: 10) // Высота индикатора статуса
         ])
     }
     

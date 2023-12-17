@@ -42,8 +42,25 @@ class PhotosViewCell: UICollectionViewCell {
         // Сначала очистите текущее изображение, чтобы предотвратить отображение неправильного изображения из-за переиспользования ячеек.
         photoImageView.image = nil
         
-        // Проверяем, есть ли URL первого изображения в массиве sizes и создаем URL.
-        if let urlString = photo.sizes.first?.url, let url = URL(string: urlString) {
+        // Попытка найти URL фотографии, где одна из сторон больше 300 пикселей.
+        var urlString = photo.sizes
+            .compactMap { size -> String? in
+                let urlComponents = size.url.components(separatedBy: "?")
+                guard let query = urlComponents.last, urlComponents.count > 1 else { return nil }
+                let queryParams = query.components(separatedBy: "&")
+                let sizeParam = queryParams.first { $0.contains("size=") }
+                guard let sizeValue = sizeParam?.components(separatedBy: "=").last else { return nil }
+                let dimensions = sizeValue.components(separatedBy: "x").compactMap { Int($0) }
+                guard dimensions.count == 2 else { return nil }
+                let (width, height) = (dimensions[0], dimensions[1])
+                return (width > 300 || height > 300) ? size.url : nil
+            }
+            .first
+        
+        // Если не найден URL с соответствующим размером, используем первый URL из массива sizes.
+        urlString = urlString ?? photo.sizes.first?.url
+        print(urlString!)
+        if let urlString = urlString, let url = URL(string: urlString) {
             // Асинхронная загрузка изображения с использованием URLSession.
             URLSession.shared.dataTask(with: url) { [weak self] data, response, error in
                 // Проверяем наличие данных и создаем изображение.
