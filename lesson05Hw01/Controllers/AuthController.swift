@@ -8,7 +8,7 @@
 import UIKit
 import WebKit
 
-class ViewController: UIViewController {
+class AuthController: UIViewController {
     
     private let webView: WKWebView = {
         let webView = WKWebView(frame: .zero)
