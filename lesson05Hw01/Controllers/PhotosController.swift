@@ -5,6 +5,7 @@ class PhotosController: UICollectionViewController, UICollectionViewDelegateFlow
     private let reuseIdentifier = "PhotoCell"
     private let sectionInsets = UIEdgeInsets(top: 10, left: 10, bottom: 10, right: 10)
     private let itemsPerRow: CGFloat = 2
+    private let refresh = UIRefreshControl()
     
     init() {
         let layout = UICollectionViewFlowLayout()
@@ -25,16 +26,15 @@ class PhotosController: UICollectionViewController, UICollectionViewDelegateFlow
         collectionView.backgroundColor = .white
         
         // Добавление функционала pull-to-refresh
-        let refreshControl = UIRefreshControl()
-        refreshControl.addTarget(self, action: #selector(refreshData(_:)), for: .valueChanged)
-        collectionView.refreshControl = refreshControl
+        refresh.addTarget(self, action: #selector(loadPhotosData), for: .valueChanged)
+        collectionView.refreshControl = refresh
         
         // Загрузка данных
-        loadData()
+        loadPhotosData()
     }
     
     // Загрузка данных
-    private func loadData() {
+    @objc private func loadPhotosData() {
         APIManager.shared.getData(for: .photos) { [weak self] photos in
             guard let photos = photos as? [PhotosModel.Response.Photo] else {
                 DispatchQueue.main.async { // добавим сюда это, а то индикатор загрузки подвисает если от апи ошика прилетает
@@ -49,12 +49,7 @@ class PhotosController: UICollectionViewController, UICollectionViewDelegateFlow
             }
         }
     }
-    
-    // Обработчик события обновления
-    @objc private func refreshData(_ sender: UIRefreshControl) {
-        loadData()
-    }
-    
+
     override func collectionView(_ collectionView: UICollectionView, numberOfItemsInSection section: Int) -> Int {
         print("photos data count "+data.count.description)
         return data.count

@@ -9,13 +9,13 @@ class GroupsController: UITableViewController {
         super.viewDidLoad()
         
         setupTableView()
-        loadFriendsData()
+        loadGroupsData()
     }
     
     private func setupTableView() {
         tableView.register(GroupsViewCell.self, forCellReuseIdentifier: "GroupsViewCellIdentifier")
         tableView.refreshControl = refresh
-        refresh.addTarget(self, action: #selector(loadFriendsData), for: .valueChanged)
+        refresh.addTarget(self, action: #selector(loadGroupsData), for: .valueChanged)
         
         view.backgroundColor = .white
         tableView.backgroundColor = .white
@@ -23,7 +23,7 @@ class GroupsController: UITableViewController {
         navigationController?.navigationBar.barTintColor = .white
     }
     
-    @objc private func loadFriendsData() {
+    @objc private func loadGroupsData() {
         APIManager.shared.getData(for: .groups) { [weak self] groups in
             DispatchQueue.main.async {
                 self?.refresh.endRefreshing() // End the refreshing animation

@@ -19,15 +19,11 @@ class FriendsController: UITableViewController {
         navigationController?.navigationBar.barTintColor = .white
         tableView.register(FriendsViewCell.self, forCellReuseIdentifier: "FriendsViewCell")
         // Настройка Refresh Control
-        refreshControl?.addTarget(self, action: #selector(refreshFriendData(_:)), for: .valueChanged)
+        refresh.addTarget(self, action: #selector(loadFriendsData), for: .valueChanged)
+
     }
     
-    @objc private func refreshFriendData(_ sender: Any) {
-        // Обновление данных
-        loadFriendsData()
-    }
-    
-    private func loadFriendsData() {
+    @objc private func loadFriendsData() {
         APIManager.shared.getData(for: .friends) { [weak self] friends in
             guard let self = self, let friends = friends as? [FriendsModel.Response.Friend] else {
                 self?.refreshControl?.endRefreshing() // Остановка анимации обновления в случае ошибки
@@ -36,7 +32,7 @@ class FriendsController: UITableViewController {
             }
             self.data = friends
             DispatchQueue.main.async {
-                print("reload data fruends")
+                print("reload data friends")
                 self.tableView.reloadData()
                 self.refreshControl?.endRefreshing() // Остановка анимации обновления
             }

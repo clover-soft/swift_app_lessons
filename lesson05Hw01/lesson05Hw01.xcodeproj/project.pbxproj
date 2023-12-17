@@ -24,6 +24,8 @@
 		661F67382B2DEF0400DDC110 /* FriendsModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 661F67372B2DEF0400DDC110 /* FriendsModel.swift */; };
 		661F673A2B2DEFA600DDC110 /* TabBarController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 661F67392B2DEFA600DDC110 /* TabBarController.swift */; };
 		661F673C2B2DEFC600DDC110 /* APIManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = 661F673B2B2DEFC600DDC110 /* APIManager.swift */; };
+		66D099052B2F34E500AB871C /* UserController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 66D099042B2F34E500AB871C /* UserController.swift */; };
+		66D099072B2F350B00AB871C /* UserModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 66D099062B2F350B00AB871C /* UserModel.swift */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
@@ -46,6 +48,8 @@
 		661F67372B2DEF0400DDC110 /* FriendsModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = FriendsModel.swift; sourceTree = "<group>"; };
 		661F67392B2DEFA600DDC110 /* TabBarController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TabBarController.swift; sourceTree = "<group>"; };
 		661F673B2B2DEFC600DDC110 /* APIManager.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = APIManager.swift; sourceTree = "<group>"; };
+		66D099042B2F34E500AB871C /* UserController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = UserController.swift; sourceTree = "<group>"; };
+		66D099062B2F350B00AB871C /* UserModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = UserModel.swift; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -62,7 +66,13 @@
 		661F67012B2DED4A00DDC110 = {
 			isa = PBXGroup;
 			children = (
-				661F670C2B2DED4A00DDC110 /* lesson05Hw01 */,
+				66D099012B2F342400AB871C /* App */,
+				66D099032B2F34BA00AB871C /* Controllers */,
+				66D099022B2F345D00AB871C /* Models */,
+				66D099082B2F3A9E00AB871C /* Views */,
+				66D099092B2F3AA900AB871C /* Services */,
+				66D0990A2B2F3AB400AB871C /* Resources */,
+				66D0990B2B2F3AC100AB871C /* SupportingFiles */,
 				661F670B2B2DED4A00DDC110 /* Products */,
 			);
 			sourceTree = "<group>";
@@ -75,61 +85,73 @@
 			name = Products;
 			sourceTree = "<group>";
 		};
-		661F670C2B2DED4A00DDC110 /* lesson05Hw01 */ = {
+		66D099012B2F342400AB871C /* App */ = {
 			isa = PBXGroup;
 			children = (
-				661F67222B2DEDCE00DDC110 /* Photos */,
-				661F67212B2DED9500DDC110 /* Friends */,
-				661F67232B2DEE2A00DDC110 /* Groups */,
-				661F67242B2DEE3400DDC110 /* Models */,
 				661F670D2B2DED4A00DDC110 /* AppDelegate.swift */,
 				661F670F2B2DED4A00DDC110 /* SceneDelegate.swift */,
-				661F67392B2DEFA600DDC110 /* TabBarController.swift */,
-				661F673B2B2DEFC600DDC110 /* APIManager.swift */,
-				661F67112B2DED4A00DDC110 /* ViewController.swift */,
-				661F67162B2DED4C00DDC110 /* Assets.xcassets */,
-				661F67182B2DED4C00DDC110 /* LaunchScreen.storyboard */,
 				661F671B2B2DED4C00DDC110 /* Info.plist */,
 			);
-			path = lesson05Hw01;
+			path = App;
 			sourceTree = "<group>";
 		};
-		661F67212B2DED9500DDC110 /* Friends */ = {
-			isa = PBXGroup;
-			children = (
-				661F672D2B2DEEA900DDC110 /* FriendsController.swift */,
-				661F672F2B2DEEB400DDC110 /* FriendsViewCell.swift */,
-			);
-			path = Friends;
-			sourceTree = "<group>";
-		};
-		661F67222B2DEDCE00DDC110 /* Photos */ = {
-			isa = PBXGroup;
-			children = (
-				661F67252B2DEE6200DDC110 /* PhotosController.swift */,
-				661F67272B2DEE6E00DDC110 /* PhotosViewCell.swift */,
-			);
-			path = Photos;
-			sourceTree = "<group>";
-		};
-		661F67232B2DEE2A00DDC110 /* Groups */ = {
-			isa = PBXGroup;
-			children = (
-				661F67292B2DEE7A00DDC110 /* GroupsController.swift */,
-				661F672B2B2DEE8500DDC110 /* GroupsViewCell.swift */,
-			);
-			path = Groups;
-			sourceTree = "<group>";
-		};
-		661F67242B2DEE3400DDC110 /* Models */ = {
+		66D099022B2F345D00AB871C /* Models */ = {
 			isa = PBXGroup;
 			children = (
 				661F67312B2DEEE600DDC110 /* VKApiErrorModel.swift */,
 				661F67332B2DEEEF00DDC110 /* PhotosModel.swift */,
 				661F67352B2DEEF500DDC110 /* GroupsModel.swift */,
+				66D099062B2F350B00AB871C /* UserModel.swift */,
 				661F67372B2DEF0400DDC110 /* FriendsModel.swift */,
 			);
 			path = Models;
+			sourceTree = "<group>";
+		};
+		66D099032B2F34BA00AB871C /* Controllers */ = {
+			isa = PBXGroup;
+			children = (
+				661F67112B2DED4A00DDC110 /* ViewController.swift */,
+				661F67392B2DEFA600DDC110 /* TabBarController.swift */,
+				66D099042B2F34E500AB871C /* UserController.swift */,
+				661F672D2B2DEEA900DDC110 /* FriendsController.swift */,
+				661F67292B2DEE7A00DDC110 /* GroupsController.swift */,
+				661F67252B2DEE6200DDC110 /* PhotosController.swift */,
+			);
+			path = Controllers;
+			sourceTree = "<group>";
+		};
+		66D099082B2F3A9E00AB871C /* Views */ = {
+			isa = PBXGroup;
+			children = (
+				661F67272B2DEE6E00DDC110 /* PhotosViewCell.swift */,
+				661F672F2B2DEEB400DDC110 /* FriendsViewCell.swift */,
+				661F672B2B2DEE8500DDC110 /* GroupsViewCell.swift */,
+			);
+			path = Views;
+			sourceTree = "<group>";
+		};
+		66D099092B2F3AA900AB871C /* Services */ = {
+			isa = PBXGroup;
+			children = (
+				661F673B2B2DEFC600DDC110 /* APIManager.swift */,
+			);
+			path = Services;
+			sourceTree = "<group>";
+		};
+		66D0990A2B2F3AB400AB871C /* Resources */ = {
+			isa = PBXGroup;
+			children = (
+				661F67162B2DED4C00DDC110 /* Assets.xcassets */,
+			);
+			path = Resources;
+			sourceTree = "<group>";
+		};
+		66D0990B2B2F3AC100AB871C /* SupportingFiles */ = {
+			isa = PBXGroup;
+			children = (
+				661F67182B2DED4C00DDC110 /* LaunchScreen.storyboard */,
+			);
+			path = SupportingFiles;
 			sourceTree = "<group>";
 		};
 /* End PBXGroup section */
@@ -204,11 +226,13 @@
 			files = (
 				661F67322B2DEEE600DDC110 /* VKApiErrorModel.swift in Sources */,
 				661F67342B2DEEEF00DDC110 /* PhotosModel.swift in Sources */,
+				66D099052B2F34E500AB871C /* UserController.swift in Sources */,
 				661F67122B2DED4A00DDC110 /* ViewController.swift in Sources */,
 				661F672E2B2DEEA900DDC110 /* FriendsController.swift in Sources */,
 				661F672A2B2DEE7A00DDC110 /* GroupsController.swift in Sources */,
 				661F670E2B2DED4A00DDC110 /* AppDelegate.swift in Sources */,
 				661F67262B2DEE6200DDC110 /* PhotosController.swift in Sources */,
+				66D099072B2F350B00AB871C /* UserModel.swift in Sources */,
 				661F67102B2DED4A00DDC110 /* SceneDelegate.swift in Sources */,
 				661F672C2B2DEE8500DDC110 /* GroupsViewCell.swift in Sources */,
 				661F67382B2DEF0400DDC110 /* FriendsModel.swift in Sources */,
@@ -362,7 +386,7 @@
 				CURRENT_PROJECT_VERSION = 1;
 				DEVELOPMENT_TEAM = B8JQB3WW59;
 				GENERATE_INFOPLIST_FILE = YES;
-				INFOPLIST_FILE = lesson05Hw01/Info.plist;
+				INFOPLIST_FILE = App/Info.plist;
 				INFOPLIST_KEY_UIApplicationSupportsIndirectInputEvents = YES;
 				INFOPLIST_KEY_UILaunchStoryboardName = LaunchScreen;
 				INFOPLIST_KEY_UISupportedInterfaceOrientations_iPad = "UIInterfaceOrientationPortrait UIInterfaceOrientationPortraitUpsideDown UIInterfaceOrientationLandscapeLeft UIInterfaceOrientationLandscapeRight";
@@ -389,7 +413,7 @@
 				CURRENT_PROJECT_VERSION = 1;
 				DEVELOPMENT_TEAM = B8JQB3WW59;
 				GENERATE_INFOPLIST_FILE = YES;
-				INFOPLIST_FILE = lesson05Hw01/Info.plist;
+				INFOPLIST_FILE = App/Info.plist;
 				INFOPLIST_KEY_UIApplicationSupportsIndirectInputEvents = YES;
 				INFOPLIST_KEY_UILaunchStoryboardName = LaunchScreen;
 				INFOPLIST_KEY_UISupportedInterfaceOrientations_iPad = "UIInterfaceOrientationPortrait UIInterfaceOrientationPortraitUpsideDown UIInterfaceOrientationLandscapeLeft UIInterfaceOrientationLandscapeRight";
