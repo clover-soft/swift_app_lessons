@@ -21,16 +21,14 @@ final class FriendsController: UITableViewController {
     
     @objc private func loadFriendsData() {
         APIManager.shared.getData(for: .friends) { [weak self] friends in
-            guard let self = self, let friends = friends as? [FriendsModel.Response.Friend] else {
-                self?.refreshControl?.endRefreshing() // Остановка анимации обновления в случае ошибки
-                print("error friends")
-                return
-            }
-            self.data = friends
             DispatchQueue.main.async {
-                print("reload data friends")
-                self.tableView.reloadData()
-                self.refreshControl?.endRefreshing() // Остановка анимации обновления
+                guard let strongSelf = self, let friends = friends as? [FriendsModel.Response.Friend] else {
+                    self?.refresh.endRefreshing()
+                    return
+                }
+                strongSelf.data = friends
+                strongSelf.tableView.reloadData()
+                strongSelf.refresh.endRefreshing()
             }
         }
     }
@@ -44,10 +42,7 @@ final class FriendsController: UITableViewController {
             return UITableViewCell()
         }
         cell.configureWithFriend(data[indexPath.row])
-
-        let currentTheme = ThemeManager.shared.currentTheme
-        cell.applyTheme(currentTheme)
-
+        cell.applyTheme(ThemeManager.shared.currentTheme)
         return cell
     }
     
@@ -65,7 +60,6 @@ final class FriendsController: UITableViewController {
         let textAttributes = [NSAttributedString.Key.foregroundColor: theme.labelTextColor]
         navigationController?.navigationBar.titleTextAttributes = textAttributes
         refresh.tintColor = theme.labelTextColor
-        tableView.reloadData() // рендерим ячейки для новой темы
+        tableView.reloadData()
     }
-
 }

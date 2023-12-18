@@ -27,7 +27,6 @@
 		66CC1C8F2B2F690D00748A52 /* Theme.swift in Sources */ = {isa = PBXBuildFile; fileRef = 66CC1C8E2B2F690D00748A52 /* Theme.swift */; };
 		66CC1C912B2F691500748A52 /* ThemeManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = 66CC1C902B2F691500748A52 /* ThemeManager.swift */; };
 		66CC1C992B2F697200748A52 /* Constants.swift in Sources */ = {isa = PBXBuildFile; fileRef = 66CC1C982B2F697200748A52 /* Constants.swift */; };
-		66CC1C9E2B2F8BE800748A52 /* CoreDataModel.xcdatamodeld in Sources */ = {isa = PBXBuildFile; fileRef = 66CC1C9C2B2F8BE800748A52 /* CoreDataModel.xcdatamodeld */; };
 		66D099052B2F34E500AB871C /* ProfileController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 66D099042B2F34E500AB871C /* ProfileController.swift */; };
 		66D099072B2F350B00AB871C /* UserModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 66D099062B2F350B00AB871C /* UserModel.swift */; };
 		66D0990D2B2F3FB300AB871C /* ProfileTabView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 66D0990C2B2F3FB300AB871C /* ProfileTabView.swift */; };
@@ -57,7 +56,6 @@
 		66CC1C8E2B2F690D00748A52 /* Theme.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Theme.swift; sourceTree = "<group>"; };
 		66CC1C902B2F691500748A52 /* ThemeManager.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ThemeManager.swift; sourceTree = "<group>"; };
 		66CC1C982B2F697200748A52 /* Constants.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Constants.swift; sourceTree = "<group>"; };
-		66CC1C9D2B2F8BE800748A52 /* Settings.xcdatamodel */ = {isa = PBXFileReference; lastKnownFileType = wrapper.xcdatamodel; path = Settings.xcdatamodel; sourceTree = "<group>"; };
 		66D099042B2F34E500AB871C /* ProfileController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ProfileController.swift; sourceTree = "<group>"; };
 		66D099062B2F350B00AB871C /* UserModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = UserModel.swift; sourceTree = "<group>"; };
 		66D0990C2B2F3FB300AB871C /* ProfileTabView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ProfileTabView.swift; sourceTree = "<group>"; };
@@ -158,7 +156,6 @@
 			isa = PBXGroup;
 			children = (
 				661F67162B2DED4C00DDC110 /* Assets.xcassets */,
-				66CC1C9C2B2F8BE800748A52 /* CoreDataModel.xcdatamodeld */,
 			);
 			path = Resources;
 			sourceTree = "<group>";
@@ -261,7 +258,6 @@
 				66D099162B2F539E00AB871C /* ProfileTransitionAnimator.swift in Sources */,
 				66D0990D2B2F3FB300AB871C /* ProfileTabView.swift in Sources */,
 				661F67262B2DEE6200DDC110 /* PhotosController.swift in Sources */,
-				66CC1C9E2B2F8BE800748A52 /* CoreDataModel.xcdatamodeld in Sources */,
 				66D099072B2F350B00AB871C /* UserModel.swift in Sources */,
 				661F67102B2DED4A00DDC110 /* SceneDelegate.swift in Sources */,
 				661F672C2B2DEE8500DDC110 /* GroupsViewCell.swift in Sources */,
@@ -485,19 +481,6 @@
 			defaultConfigurationName = Release;
 		};
 /* End XCConfigurationList section */
-
-/* Begin XCVersionGroup section */
-		66CC1C9C2B2F8BE800748A52 /* CoreDataModel.xcdatamodeld */ = {
-			isa = XCVersionGroup;
-			children = (
-				66CC1C9D2B2F8BE800748A52 /* Settings.xcdatamodel */,
-			);
-			currentVersion = 66CC1C9D2B2F8BE800748A52 /* Settings.xcdatamodel */;
-			path = CoreDataModel.xcdatamodeld;
-			sourceTree = "<group>";
-			versionGroupType = wrapper.xcdatamodel;
-		};
-/* End XCVersionGroup section */
 	};
 	rootObject = 661F67022B2DED4A00DDC110 /* Project object */;
 }

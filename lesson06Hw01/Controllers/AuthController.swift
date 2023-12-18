@@ -13,7 +13,7 @@ final class AuthController: UIViewController {
         webView.navigationDelegate = self
         view.addSubview(webView)
         
-        let clientId = "51813520"
+        let clientId = "51816955"
         let authURLString = "https://oauth.vk.com/authorize?client_id=\(clientId)&redirect_uri=https://oauth.vk.com/blank.html&262150&display=mobile&response_type=token"
         
         if let url = URL(string: authURLString) {
