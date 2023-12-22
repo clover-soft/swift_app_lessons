@@ -7,6 +7,14 @@ final class FriendsController: UITableViewController {
     override func viewDidLoad() {
         super.viewDidLoad()
         NotificationCenter.default.addObserver(self, selector: #selector(themeDidChange(_:)), name: ThemeManager.themeDidChangeNotification, object: nil)
+        
+        navigationItem.rightBarButtonItem = UIBarButtonItem(
+            title: "Profile",
+            style: .plain,
+            target: self,
+            action: #selector(rightBarButtonTapped)
+        )
+        
         applyTheme(ThemeManager.shared.currentTheme)
         setupTableView()
         loadFriendsData()
@@ -49,6 +57,19 @@ final class FriendsController: UITableViewController {
     @objc private func themeDidChange(_ notification: Notification) {
         guard let newTheme = notification.object as? Theme else { return }
         applyTheme(newTheme)
+    }
+    
+    @objc func rightBarButtonTapped() {
+
+        let animation = CATransition()
+        animation.timingFunction = CAMediaTimingFunction(name: .linear)
+        animation.duration = 0.5
+        animation.type = .reveal
+        animation.subtype = .fromRight
+        
+        self.navigationController?.view.layer.add(animation, forKey: nil)
+        
+        navigationController?.pushViewController(ProfileController, animated: false)
     }
 
     deinit {
