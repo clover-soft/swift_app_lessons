@@ -9,10 +9,10 @@ final class FriendsController: UITableViewController {
         NotificationCenter.default.addObserver(self, selector: #selector(themeDidChange(_:)), name: ThemeManager.themeDidChangeNotification, object: nil)
         
         navigationItem.rightBarButtonItem = UIBarButtonItem(
-            title: "Profile",
+            title: "Профиль",
             style: .plain,
             target: self,
-            action: #selector(rightBarButtonTapped)
+            action: #selector(showProfile)
         )
         
         applyTheme(ThemeManager.shared.currentTheme)
@@ -20,12 +20,6 @@ final class FriendsController: UITableViewController {
         loadFriendsData()
     }
     
-    private func setupTableView() {
-        tableView.refreshControl = refresh
-        title = "Друзья"
-        tableView.register(FriendsViewCell.self, forCellReuseIdentifier: "FriendsViewCell")
-        refresh.addTarget(self, action: #selector(loadFriendsData), for: .valueChanged)
-    }
     
     @objc private func loadFriendsData() {
         APIManager.shared.getData(for: .friends) { [weak self] friends in
@@ -59,19 +53,6 @@ final class FriendsController: UITableViewController {
         applyTheme(newTheme)
     }
     
-    @objc func rightBarButtonTapped() {
-
-        let animation = CATransition()
-        animation.timingFunction = CAMediaTimingFunction(name: .linear)
-        animation.duration = 0.5
-        animation.type = .reveal
-        animation.subtype = .fromRight
-        
-        self.navigationController?.view.layer.add(animation, forKey: nil)
-        
-        navigationController?.pushViewController(ProfileController, animated: false)
-    }
-
     deinit {
         NotificationCenter.default.removeObserver(self)
     }
