@@ -11,7 +11,6 @@ final class FriendsController: UITableViewController {
         setupTableView()
         loadFriendsData()
     }
-    
     private func setupTableView() {
         view.backgroundColor = .white
         tableView.refreshControl = refresh

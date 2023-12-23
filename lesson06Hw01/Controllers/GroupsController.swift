@@ -26,11 +26,12 @@ final class GroupsController: UITableViewController {
 
 
     @objc private func loadGroupsData() {
-        APIManager.shared.getData(for: .groups) { [weak self] (result: Result<[GroupsModel.Response.Group], Error>) in
+        APIManager.shared.getData(for: .groups) { [weak self] (result: Result<GroupsModel, Error>) in
             DispatchQueue.main.async {
                 self?.refresh.endRefreshing()
                 switch result {
-                case .success(let groups):
+                case .success(let groupsModel):
+                    let groups = groupsModel.response.items
                     self?.data = groups
                     self?.tableView.reloadData()
                     CoreDataManager.shared.saveGroups(groups)

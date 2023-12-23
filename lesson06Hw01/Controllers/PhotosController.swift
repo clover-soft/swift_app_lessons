@@ -31,11 +31,12 @@ final class PhotosController: UICollectionViewController, UICollectionViewDelega
     
     // Загрузка данных
     @objc private func loadPhotosData() {
-        APIManager.shared.getData(for: .photos) { [weak self] (result: Result<[PhotosModel.Response.Photo], Error>) in
+        APIManager.shared.getData(for: .photos) { [weak self] (result: Result<PhotosModel, Error>) in
             DispatchQueue.main.async {
                 self?.refresh.endRefreshing()
                 switch result {
-                case .success(let photos):
+                case .success(let photosModel):
+                    let photos =  photosModel.response.items
                     self?.data = photos
                     self?.collectionView.reloadData()
                 case .failure(let error):

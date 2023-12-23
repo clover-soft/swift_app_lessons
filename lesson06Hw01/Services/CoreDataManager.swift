@@ -22,6 +22,7 @@ final class CoreDataManager {
             friend.photo = friendData.photo
         }
         saveContext()
+        saveFriendsLastUpdate(date: Date())
     }
     
     // Сохранение групп в Core Data
@@ -34,6 +35,7 @@ final class CoreDataManager {
             group.screenName = groupData.screenName
         }
         saveContext()
+        saveGroupsLastUpdate(date: Date())
     }
     
     // Извлечение друзей из Core Data
@@ -77,14 +79,14 @@ final class CoreDataManager {
     }
     
     // Сохранение времени последнего обновления друзей
-    func saveFriendLastUpdate(date: Date) {
+    func saveFriendsLastUpdate(date: Date) {
       let lastUpdate = getLastUpdateEntity()
       lastUpdate.friendsLastUpdate = date
       saveContext()
     }
     
     // Сохранение времени последнего обновления групп
-    func saveGroupLastUpdate(date: Date) {
+    func saveGroupsLastUpdate(date: Date) {
       let lastUpdate = getLastUpdateEntity()
       lastUpdate.groupsLastUpdate = date
       saveContext()

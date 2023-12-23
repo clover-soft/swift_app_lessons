@@ -1,10 +1,3 @@
-//
-//  APIManager.swift
-//  lesson03Hw01
-//
-//  Created by yakov on 12.12.2023.
-//
-
 import Foundation
 
 final class APIManager {
@@ -62,7 +55,10 @@ final class APIManager {
             completion(.failure(NSError(domain: "", code: -1, userInfo: [NSLocalizedDescriptionKey: "Invalid URL"])))
             return
         }
-         
+        
+        var urlRequest = URLRequest(url: url)
+        urlRequest.timeoutInterval = 10 // Установка таймаута в 10 секунд
+        
         session.dataTask(with: url) { data, response, error in
             if let error = error {
                 completion(.failure(error))
@@ -74,10 +70,10 @@ final class APIManager {
                 return
             }
 
-            // Отладочный вывод полученных данных
-            if let dataString = String(data: data, encoding: .utf8) {
-                print("Полученные данные (строкой): \(dataString)")
-            }
+//            // Отладочный вывод полученных данных
+//            if let dataString = String(data: data, encoding: .utf8) {
+//                print("Полученные данные (строкой): \(dataString)")
+//            }
 
             do {
                 let decodedData = try JSONDecoder().decode(T.self, from: data)

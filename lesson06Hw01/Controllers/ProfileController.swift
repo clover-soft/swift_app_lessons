@@ -21,20 +21,27 @@ final class ProfileController: UIViewController, ProfileTabViewDelegate {
     }
     
     private func loadUserProfile() {
-        APIManager.shared.getData(for: .profile) { [weak self] (result: Result<[UserModel.User], Error>) in
+        APIManager.shared.getData(for: .profile) { [weak self] (result: Result<UserModel, Error>) in
             DispatchQueue.main.async {
                 switch result {
-                case .success(let userData):
-                    if let user = userData.first {
-                        self?.profileTabView.configure(with: user)
+                case .success(let userModel):
+                    // Проверяем, есть ли пользователи в ответе и передаем первого пользователя
+                    if let firstUser = userModel.response.first {
+                        self?.profileTabView.configure(with: firstUser)
+                    } else {
+                        // Обрабатываем ситуацию, когда массив пользователей пуст
+                        // Можете добавить здесь вашу логику обработки ошибок
+                        print("User array is empty")
                     }
+                    
                 case .failure(let error):
+                    // Отображаем ошибку, если запрос не удался
                     self?.showErrorAlert(error)
                 }
             }
         }
     }
-
+    
     private func showErrorAlert(_ error: Error) {
         let alert = UIAlertController(title: "Ошибка", message: "Не удалось загрузить данные профиля. Ошибка: \(error.localizedDescription)", preferredStyle: .alert)
         alert.addAction(UIAlertAction(title: "OK", style: .default))
