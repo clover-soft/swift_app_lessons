@@ -24,28 +24,35 @@ final class PhotosController: UICollectionViewController, UICollectionViewDelega
         NotificationCenter.default.addObserver(self, selector: #selector(themeDidChange(_:)), name: ThemeManager.themeDidChangeNotification, object: nil)
         applyTheme(ThemeManager.shared.currentTheme)
         collectionView.register(PhotosViewCell.self, forCellWithReuseIdentifier: reuseIdentifier)
-        refresh.addTarget(self, action: #selector(loadPhotosData), for: .valueChanged)
         collectionView.refreshControl = refresh
+        refresh.addTarget(self, action: #selector(loadPhotosData), for: .valueChanged)
         loadPhotosData()
     }
     
     // Загрузка данных
     @objc private func loadPhotosData() {
-        APIManager.shared.getData(for: .photos) { [weak self] photos in
-            guard let photos = photos as? [PhotosModel.Response.Photo] else {
-                DispatchQueue.main.async { // добавим сюда это, а то индикатор загрузки подвисает если от апи ошика прилетает
-                    self?.collectionView.refreshControl?.endRefreshing()
-                }
-                return
-            }
-            self?.data = photos
+        APIManager.shared.getData(for: .photos) { [weak self] (result: Result<[PhotosModel.Response.Photo], Error>) in
             DispatchQueue.main.async {
-                self?.collectionView.reloadData()
-                self?.collectionView.refreshControl?.endRefreshing()
+                self?.refresh.endRefreshing()
+                switch result {
+                case .success(let photos):
+                    self?.data = photos
+                    self?.collectionView.reloadData()
+                case .failure(let error):
+                    self?.showErrorAlert(error)
+                }
             }
         }
     }
 
+    private func showErrorAlert(_ error: Error) {
+        let message = "Не удалось обновить данные. Ошибка: \(error.localizedDescription)"
+        let alert = UIAlertController(title: "Ошибка", message: message, preferredStyle: .alert)
+        alert.addAction(UIAlertAction(title: "OK", style: .default))
+        present(alert, animated: true)
+    }
+
+    
     override func collectionView(_ collectionView: UICollectionView, numberOfItemsInSection section: Int) -> Int {
         print("photos data count "+data.count.description)
         return data.count

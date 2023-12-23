@@ -66,7 +66,7 @@ class GroupsViewCell: UITableViewCell {
     descriptionLabel.text = group.name // не понял тут что должно быть в описании группы
     
     // Асинхронная загрузка изображения
-    if let url = URL(string: group.photo) {
+      if let url = URL(string: group.photo) {
       URLSession.shared.dataTask(with: url) { data, response, error in
         if let data = data, let image = UIImage(data: data) {
           DispatchQueue.main.async {

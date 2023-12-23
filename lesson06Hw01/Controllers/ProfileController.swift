@@ -21,16 +21,26 @@ final class ProfileController: UIViewController, ProfileTabViewDelegate {
     }
     
     private func loadUserProfile() {
-        APIManager.shared.getData(for: .profile) { [weak self] result in
+        APIManager.shared.getData(for: .profile) { [weak self] (result: Result<[UserModel.User], Error>) in
             DispatchQueue.main.async {
-                if let userData = result as? [UserModel.User], let user = userData.first {
-                    self?.profileTabView.configure(with: user)
-                } else {
-                    // Consider adding user-facing error handling here
+                switch result {
+                case .success(let userData):
+                    if let user = userData.first {
+                        self?.profileTabView.configure(with: user)
+                    }
+                case .failure(let error):
+                    self?.showErrorAlert(error)
                 }
             }
         }
     }
+
+    private func showErrorAlert(_ error: Error) {
+        let alert = UIAlertController(title: "Ошибка", message: "Не удалось загрузить данные профиля. Ошибка: \(error.localizedDescription)", preferredStyle: .alert)
+        alert.addAction(UIAlertAction(title: "OK", style: .default))
+        present(alert, animated: true)
+    }
+    
 
     func didChangeTheme(to theme: Theme) {
         ThemeManager.shared.setTheme(theme)

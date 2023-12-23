@@ -8,10 +8,13 @@ struct GroupsModel: Codable {
     struct Group: Codable {
       let name: String
       let photo: String
+      let screenName: String
+      let id: Int
        
       private enum CodingKeys: String, CodingKey {
-        case name
+        case name, id
         case photo = "photo_50"
+        case screenName = "screen_name"
       }
     }
   }

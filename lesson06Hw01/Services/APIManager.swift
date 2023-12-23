@@ -56,53 +56,46 @@ final class APIManager {
         return url
     }
     
-    func getData(for request: Requests, completion: @escaping ([Any]?) -> Void) {
+    
+    func getData<T: Decodable>(for request: Requests, completion: @escaping (Result<T, Error>) -> Void) {
         guard let url = getRequestUrl(for: request) else {
-            completion(nil)
+            completion(.failure(NSError(domain: "", code: -1, userInfo: [NSLocalizedDescriptionKey: "Invalid URL"])))
             return
         }
-        
+         
         session.dataTask(with: url) { data, response, error in
             if let error = error {
-                print("Networking error: \(error.localizedDescription)")
-                completion(nil)
+                completion(.failure(error))
                 return
             }
-            
-            guard let data = data else {
-                completion(nil)
-                return
-            }
-            
-            do {
-                switch request {
-                case .friends:
-                    let decodedData = try JSONDecoder().decode(FriendsModel.self, from: data)
-                    completion(decodedData.response.items)
-                case .groups:
-                    let decodedData = try JSONDecoder().decode(GroupsModel.self, from: data)
-                    completion(decodedData.response.items)
-                case .photos:
-                    let decodedData = try JSONDecoder().decode(PhotosModel.self, from: data)
-                    completion(decodedData.response.items)
-                case .profile:
-                    let decodedData = try JSONDecoder().decode(UserModel.self, from: data)
-                    completion(decodedData.response)
 
-                }
-            } catch {
-                print("JSON decoding error: \(error)")
-                
-                // Декодируем содержимое ошибки от VK API.
-                if let apiError = try? JSONDecoder().decode(VKApiErrorModel.self, from: data) {
-                    print("VK API Error: \(apiError.error.errorMessage)")
-                } else {
-                    print("Error: Unable to decode VK API error.")
-                }
-                
-                completion(nil)
+            guard let data = data else {
+                completion(.failure(NSError(domain: "", code: -1, userInfo: [NSLocalizedDescriptionKey: "No data received"])))
+                return
             }
-            
+
+            // Отладочный вывод полученных данных
+            if let dataString = String(data: data, encoding: .utf8) {
+                print("Полученные данные (строкой): \(dataString)")
+            }
+
+            do {
+                let decodedData = try JSONDecoder().decode(T.self, from: data)
+                completion(.success(decodedData))
+            } catch {
+                print("Ошибка декодирования JSON: \(error)")
+
+                // Попытка декодировать возможную ошибку от VK API
+                if let apiError = try? JSONDecoder().decode(VKApiErrorModel.self, from: data) {
+                    let errorMessage = apiError.error.errorMessage
+                    print("Ошибка VK API: \(errorMessage)")
+                    completion(.failure(NSError(domain: "", code: apiError.error.errorCode, userInfo: [NSLocalizedDescriptionKey: errorMessage])))
+                } else {
+                    print("Ошибка: Невозможно декодировать ошибку VK API.")
+                    completion(.failure(error))
+                }
+            }
         }.resume()
     }
+    
 }
