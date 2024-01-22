@@ -18,7 +18,6 @@ final class GroupsController: UITableViewController {
   
   private func setupTableView() {
     tableView.register(GroupsViewCell.self, forCellReuseIdentifier: Constants.cellIdentifier)
-    title = "Сообщества"
     tableView.refreshControl = refresh
     refresh.addTarget(self, action: #selector(loadGroupsData), for: .valueChanged)
   }

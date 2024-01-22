@@ -2,22 +2,27 @@ import UIKit
 
 final class TabBarController: UITabBarController, UITabBarControllerDelegate, UIViewControllerTransitioningDelegate {
     
-    private let friendsController = FriendsController()
-    private let groupsController = GroupsController()
-    private let photosController = PhotosController()
-    private let profileController = ProfileController()
     override func viewDidLoad() {
         super.viewDidLoad()
+        view.backgroundColor = UIColor.white // Стартовый цвет для таббара
         NotificationCenter.default.addObserver(self, selector: #selector(themeDidChange(_:)), name: ThemeManager.themeDidChangeNotification, object: nil)
         applyTheme(ThemeManager.shared.currentTheme)
 
         self.delegate = self
-        // Прописываем табы
-        friendsController.tabBarItem = UITabBarItem(
+
+        // Создаем экземпляр FriendsController и оборачиваем его в UINavigationController
+        let friendsController = FriendsController()
+        let friendsNavController = UINavigationController(rootViewController: friendsController)
+        friendsNavController.tabBarItem = UITabBarItem(
             title: "Друзья",
             image: UIImage(systemName: "person.2"),
             selectedImage: nil
         )
+        
+        // Создаем экземпляры остальных контроллеров (если они еще не в UINavigationController)
+        let groupsController = GroupsController()
+        let photosController = PhotosController()        
+        // Устанавливаем tabBarItem для каждого контроллера
         groupsController.tabBarItem = UITabBarItem(
             title: "Сообщества",
             image: UIImage(systemName: "person.3"),
@@ -28,19 +33,15 @@ final class TabBarController: UITabBarController, UITabBarControllerDelegate, UI
             image: UIImage(systemName: "photo.on.rectangle.angled"),
             selectedImage: nil
         )
-        profileController.tabBarItem = UITabBarItem(
-            title: "Профиль",
-            image: UIImage(systemName: "person.crop.circle"),
-            selectedImage: nil
-        )
         
-        // Добавляем контроллеры в массив табов
-        viewControllers = [friendsController, groupsController, photosController, profileController]
+        // Добавляем контроллеры в массив табов, обернув необходимые в UINavigationController
+        // viewControllers = [friendsNavController, groupsController, photosController, profileController]
+        viewControllers = [friendsNavController, groupsController, photosController]
 
         // Установим текущий заголовок
         updateTitle(for: selectedViewController)
-
     }
+    
 
     // Делегат для обновления заголовка
     func tabBarController(_ tabBarController: UITabBarController, didSelect viewController: UIViewController) {

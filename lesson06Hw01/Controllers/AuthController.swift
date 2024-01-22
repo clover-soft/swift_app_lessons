@@ -10,6 +10,8 @@ final class AuthController: UIViewController {
     
     override func viewDidLoad() {
         super.viewDidLoad()
+        NotificationCenter.default.addObserver(self, selector: #selector(themeDidChange(_:)), name: ThemeManager.themeDidChangeNotification, object: nil)
+        applyTheme(ThemeManager.shared.currentTheme)
         webView.navigationDelegate = self
         view.addSubview(webView)
         
@@ -22,10 +24,22 @@ final class AuthController: UIViewController {
         }
     }
     
+    @objc private func themeDidChange(_ notification: Notification) {
+        guard let newTheme = notification.object as? Theme else { return }
+        applyTheme(newTheme)
+    }
+    
     override func viewDidLayoutSubviews() {
         super.viewDidLayoutSubviews()
         webView.frame = view.bounds
     }
+    deinit {
+        NotificationCenter.default.removeObserver(self)
+    }
+    private func applyTheme(_ theme: Theme) {
+        // Тут будет код для применения темы если потребуется
+    }
+
 }
 
 extension AuthController: WKNavigationDelegate {
@@ -48,8 +62,14 @@ extension AuthController: WKNavigationDelegate {
         APIManager.setCredentials(params[ "access_token" ]!, params[ "user_id" ]!)
         decisionHandler(.cancel)
         webView.removeFromSuperview()
-        navigationController?.pushViewController(TabBarController(), animated: true)
+        if let windowScene = UIApplication.shared.connectedScenes.first as? UIWindowScene,
+           let window = windowScene.windows.first(where: { $0.isKeyWindow }) {
+            window.rootViewController = TabBarController()
+            window.makeKeyAndVisible()
+//            UIView.transition(with: window, duration: 0.3, options: .transitionCrossDissolve, animations: nil, completion: nil)
+        }
     }
+    
 }
 
 

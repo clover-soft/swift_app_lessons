@@ -1,6 +1,10 @@
 import Foundation
 
-final class APIManager {
+protocol APIManagerProtocol {
+    func getData<T: Decodable>(for request: APIManager.Requests, completion: @escaping (Result<T, Error>) -> Void)
+}
+
+final class APIManager:APIManagerProtocol {
     private let session: URLSession
     
     static private var token = ""
@@ -31,7 +35,7 @@ final class APIManager {
         
         switch request {
         case .friends:
-            urlString = "https://api.vk.com/method/friends.get?fields=nickname,photo_50,online&access_token=\(APIManager.token)&v=5.199"
+            urlString = "https://api.vk.com/method/friends.get?fields=nickname,photo_50,photo_200_orig,online&access_token=\(APIManager.token)&v=5.199"
         case .groups:
             urlString = "https://api.vk.com/method/groups.get?extended=1&access_token=\(APIManager.token)&v=5.199"
         case .profile:

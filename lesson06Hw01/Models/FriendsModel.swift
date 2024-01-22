@@ -11,6 +11,7 @@ struct FriendsModel: Codable {
             let lastName: String
             let online: Int
             let photo: String
+            let photo200: String
             
             private enum CodingKeys: String, CodingKey {
                 case id
@@ -18,7 +19,10 @@ struct FriendsModel: Codable {
                 case lastName = "last_name"
                 case online
                 case photo = "photo_50"
+                case photo200 = "photo_200_orig"
             }
         }
     }
 }
+
+

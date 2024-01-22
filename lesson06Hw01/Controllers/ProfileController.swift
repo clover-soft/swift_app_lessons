@@ -13,7 +13,6 @@ final class ProfileController: UIViewController, ProfileTabViewDelegate {
     }
     
     private func setupProfileTabView() {
-        title = "Профиль"
         transitioningDelegate = (tabBarController as? TabBarController)
         view.addSubview(profileTabView)
         profileTabView.frame = view.bounds

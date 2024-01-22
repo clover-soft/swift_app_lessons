@@ -9,6 +9,8 @@
 /* Begin PBXBuildFile section */
 		661EAC442B374B03001E8516 /* CoreDataManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = 661EAC432B374B03001E8516 /* CoreDataManager.swift */; };
 		661EAC4D2B377D01001E8516 /* CoreDataModel.xcdatamodeld in Sources */ = {isa = PBXBuildFile; fileRef = 661EAC4B2B377D01001E8516 /* CoreDataModel.xcdatamodeld */; };
+		661EAC512B37963B001E8516 /* FriendProfileController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 661EAC502B37963B001E8516 /* FriendProfileController.swift */; };
+		661EAC532B379755001E8516 /* FriendProfileTabView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 661EAC522B379755001E8516 /* FriendProfileTabView.swift */; };
 		661F670E2B2DED4A00DDC110 /* AppDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = 661F670D2B2DED4A00DDC110 /* AppDelegate.swift */; };
 		661F67102B2DED4A00DDC110 /* SceneDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = 661F670F2B2DED4A00DDC110 /* SceneDelegate.swift */; };
 		661F67122B2DED4A00DDC110 /* AuthController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 661F67112B2DED4A00DDC110 /* AuthController.swift */; };
@@ -38,6 +40,8 @@
 /* Begin PBXFileReference section */
 		661EAC432B374B03001E8516 /* CoreDataManager.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CoreDataManager.swift; sourceTree = "<group>"; };
 		661EAC4C2B377D01001E8516 /* CoreDataModel.xcdatamodel */ = {isa = PBXFileReference; lastKnownFileType = wrapper.xcdatamodel; path = CoreDataModel.xcdatamodel; sourceTree = "<group>"; };
+		661EAC502B37963B001E8516 /* FriendProfileController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = FriendProfileController.swift; sourceTree = "<group>"; };
+		661EAC522B379755001E8516 /* FriendProfileTabView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = FriendProfileTabView.swift; sourceTree = "<group>"; };
 		661F670A2B2DED4A00DDC110 /* lesson05Hw01.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = lesson05Hw01.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		661F670D2B2DED4A00DDC110 /* AppDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppDelegate.swift; sourceTree = "<group>"; };
 		661F670F2B2DED4A00DDC110 /* SceneDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SceneDelegate.swift; sourceTree = "<group>"; };
@@ -133,6 +137,7 @@
 				661F672D2B2DEEA900DDC110 /* FriendsController.swift */,
 				661F67292B2DEE7A00DDC110 /* GroupsController.swift */,
 				661F67252B2DEE6200DDC110 /* PhotosController.swift */,
+				661EAC502B37963B001E8516 /* FriendProfileController.swift */,
 			);
 			path = Controllers;
 			sourceTree = "<group>";
@@ -143,6 +148,7 @@
 				661F67272B2DEE6E00DDC110 /* PhotosViewCell.swift */,
 				661F672F2B2DEEB400DDC110 /* FriendsViewCell.swift */,
 				661F672B2B2DEE8500DDC110 /* GroupsViewCell.swift */,
+				661EAC522B379755001E8516 /* FriendProfileTabView.swift */,
 				66D0990C2B2F3FB300AB871C /* ProfileTabView.swift */,
 			);
 			path = Views;
@@ -275,7 +281,9 @@
 				661F673C2B2DEFC600DDC110 /* APIManager.swift in Sources */,
 				66CC1C8F2B2F690D00748A52 /* Theme.swift in Sources */,
 				661F67282B2DEE6E00DDC110 /* PhotosViewCell.swift in Sources */,
+				661EAC512B37963B001E8516 /* FriendProfileController.swift in Sources */,
 				661F67302B2DEEB400DDC110 /* FriendsViewCell.swift in Sources */,
+				661EAC532B379755001E8516 /* FriendProfileTabView.swift in Sources */,
 				66CC1C912B2F691500748A52 /* ThemeManager.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;

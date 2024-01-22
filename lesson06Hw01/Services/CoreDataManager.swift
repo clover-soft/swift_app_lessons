@@ -1,7 +1,19 @@
 import CoreData
 import UIKit
 
-final class CoreDataManager {
+protocol CoreDataManagerProtocol {
+    func saveFriends(_ friendsData: [FriendsModel.Response.Friend])
+    func saveGroups(_ groupsData: [GroupsModel.Response.Group])
+    func fetchFriends() -> [FriendsModel.Response.Friend]
+    func fetchGroups() -> [GroupsModel.Response.Group]
+    func saveFriendsLastUpdate(date: Date)
+    func saveGroupsLastUpdate(date: Date)
+    func fetchFriendsLastUpdate() -> String
+    func fetchGroupsLastUpdate() -> String
+    
+}
+
+final class CoreDataManager: CoreDataManagerProtocol {
     
     static let shared = CoreDataManager()
     
@@ -10,6 +22,30 @@ final class CoreDataManager {
     private init() {
         context = (UIApplication.shared.delegate as! AppDelegate).persistentContainer.viewContext
     }
+    // Сохранение контекста Core Data
+    private func saveContext() {
+        if context.hasChanges {
+            do {
+                try context.save()
+            } catch let error as NSError {
+                print("An error occurred while saving: \(error), \(error.userInfo)")
+            }
+        }
+    }
+
+    // Получение LastUpdate сущности, или создание новой если не существует
+    private func getLastUpdateEntity() -> LastUpdate {
+      let fetchRequest: NSFetchRequest<LastUpdate> = LastUpdate.fetchRequest()
+      if let lastUpdate = try? context.fetch(fetchRequest).first {
+        // Возвращаем существующую сущность
+        return lastUpdate
+      } else {
+        // Создаем новую сущность, если не существует
+        let newLastUpdate = LastUpdate(context: context)
+        return newLastUpdate
+      }
+    }
+
     
     // Сохранение друзей в Core Data
     func saveFriends(_ friendsData: [FriendsModel.Response.Friend]) {
@@ -38,45 +74,49 @@ final class CoreDataManager {
         saveGroupsLastUpdate(date: Date())
     }
     
-    // Извлечение друзей из Core Data
-    func fetchFriends() -> [FriendCoreDataModel] {
+        
+    func fetchFriends() -> [FriendsModel.Response.Friend] {
         do {
-            return try context.fetch(FriendCoreDataModel.fetchRequest())
+            let friends = try context.fetch(FriendCoreDataModel.fetchRequest())
+            var newFriends = [FriendsModel.Response.Friend]()
+            for friend in friends {
+                let newFriend = FriendsModel.Response.Friend(
+                    id: Int(friend.id),
+                    firstName: friend.firstName ?? "",
+                    lastName: friend.lastName ?? "",
+                    online: Int(friend.online),
+                    photo: friend.photo ?? "",
+                    photo200: friend.photo200 ?? ""
+                )
+                newFriends.append(newFriend)
+            }
+            return newFriends
         } catch {
-            print("Error fetching friends: \(error)")
             return []
         }
     }
+    
     
     // Извлечение групп из Core Data
-    func fetchGroups() -> [GroupCoreDataModel] {
+    func fetchGroups() -> [GroupsModel.Response.Group] {
         do {
-            return try context.fetch(GroupCoreDataModel.fetchRequest())
+            let groups = try context.fetch(GroupCoreDataModel.fetchRequest())
+            var newGroups = [GroupsModel.Response.Group]()
+            for group in groups {
+                let newGroup = GroupsModel.Response.Group(
+                    name: Int(group.id) == 0 ? "Неизвестная группа" : group.name ?? "",
+                    photo: group.photo ?? "",
+                    screenName: group.screenName ?? "",
+                    id: Int(group.id)
+                )
+                newGroups.append(newGroup)
+            }
+            return newGroups
         } catch {
-            print("Error fetching groups: \(error)")
             return []
         }
     }
     
-    // Сохранение контекста Core Data
-    private func saveContext() {
-        if context.hasChanges {
-            do {
-                try context.save()
-            } catch let error as NSError {
-                print("An error occurred while saving: \(error), \(error.userInfo)")
-            }
-        }
-    }
-    func deleteAllFriends() {
-        let fetchRequest: NSFetchRequest<NSFetchRequestResult> = FriendCoreDataModel.fetchRequest()
-        let deleteRequest = NSBatchDeleteRequest(fetchRequest: fetchRequest)
-        do {
-            try context.execute(deleteRequest)
-        } catch {
-            print("Error deleting all friends: \(error)")
-        }
-    }
     
     // Сохранение времени последнего обновления друзей
     func saveFriendsLastUpdate(date: Date) {
@@ -92,19 +132,6 @@ final class CoreDataManager {
       saveContext()
     }
     
-    // Получение LastUpdate сущности, или создание новой если не существует
-    private func getLastUpdateEntity() -> LastUpdate {
-      let fetchRequest: NSFetchRequest<LastUpdate> = LastUpdate.fetchRequest()
-      if let lastUpdate = try? context.fetch(fetchRequest).first {
-        // Возвращаем существующую сущность
-        return lastUpdate
-      } else {
-        // Создаем новую сущность, если не существует
-        let newLastUpdate = LastUpdate(context: context)
-        return newLastUpdate
-      }
-    }
-
     // Извлечение времени последнего обновления друзей
     func fetchFriendsLastUpdate() -> String {
       let lastUpdate = getLastUpdateEntity()

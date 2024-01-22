@@ -1,53 +1,32 @@
 import UIKit
 
-final class ProfileController: UIViewController, ProfileTabViewDelegate {
-    private let profileTabView = ProfileTabView()
-
+final class FriendProfileController: UIViewController, FriendProfileTabViewDelegate {
+    private let friendProfileTabView = FriendProfileTabView()
+    var friendsResponse: FriendsModel.Response? 
     override func viewDidLoad() {
         super.viewDidLoad()
         NotificationCenter.default.addObserver(self, selector: #selector(themeDidChange(_:)), name: ThemeManager.themeDidChangeNotification, object: nil)
         applyTheme(ThemeManager.shared.currentTheme)
 
-        setupProfileTabView()
-        loadUserProfile()
+        setupFriendProfileTabView()
+        loadFriendProfile()
     }
     
-    private func setupProfileTabView() {
-        title = "Профиль"
+    private func setupFriendProfileTabView() {
+        title = "Профиль друга"
         transitioningDelegate = (tabBarController as? TabBarController)
-        view.addSubview(profileTabView)
-        profileTabView.frame = view.bounds
-        profileTabView.delegate = self
+        view.addSubview(friendProfileTabView)
+        friendProfileTabView.frame = view.bounds
+        friendProfileTabView.delegate = self
     }
     
-    private func loadUserProfile() {
-        APIManager.shared.getData(for: .profile) { [weak self] (result: Result<UserModel, Error>) in
-            DispatchQueue.main.async {
-                switch result {
-                case .success(let userModel):
-                    // Проверяем, есть ли пользователи в ответе и передаем первого пользователя
-                    if let firstUser = userModel.response.first {
-                        self?.profileTabView.configure(with: firstUser)
-                    } else {
-                        // Обрабатываем ситуацию, когда массив пользователей пуст
-                        // Можете добавить здесь вашу логику обработки ошибок
-                        print("User array is empty")
-                    }
-                    
-                case .failure(let error):
-                    // Отображаем ошибку, если запрос не удался
-                    self?.showErrorAlert(error)
-                }
-            }
-        }
+    private func loadFriendProfile() {
+        // Здесь ваш код для загрузки профиля друга, похожего на предыдущий loadFriendProfile
     }
     
     private func showErrorAlert(_ error: Error) {
-        let alert = UIAlertController(title: "Ошибка", message: "Не удалось загрузить данные профиля. Ошибка: \(error.localizedDescription)", preferredStyle: .alert)
-        alert.addAction(UIAlertAction(title: "OK", style: .default))
-        present(alert, animated: true)
+        // Ваша имеющаяся реализация функции showErrorAlert
     }
-    
 
     func didChangeTheme(to theme: Theme) {
         ThemeManager.shared.setTheme(theme)
@@ -63,14 +42,13 @@ final class ProfileController: UIViewController, ProfileTabViewDelegate {
     }
 
     private func applyTheme(_ theme: Theme) {
-        profileTabView.currentTheme = theme
-        profileTabView.updateThemeSelection(to: theme)
+        friendProfileTabView.applyTheme(theme)
         view.backgroundColor = theme.backgroundColor
-        profileTabView.backgroundColor = theme.backgroundColor
-        profileTabView.nameLabel.textColor = theme.labelTextColor
-        profileTabView.imageView.backgroundColor = theme.cellBackgroundColor
-        profileTabView.themePicker.reloadAllComponents()
         let textAttributes = [NSAttributedString.Key.foregroundColor: theme.labelTextColor]
         navigationController?.navigationBar.titleTextAttributes = textAttributes
+    }
+    
+    func setFriend(_ friend: FriendsModel.Response.Friend) {
+            friendProfileTabView.configure(with: friend)
     }
 }
