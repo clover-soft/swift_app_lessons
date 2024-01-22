@@ -35,6 +35,7 @@ final class GroupsController: UITableViewController {
                     self?.tableView.reloadData()
                     CoreDataManager.shared.saveGroups(groups)
                 case .failure(let error):
+                    self?.data = CoreDataManager.shared.fetchGroups()
                     self?.showErrorAlert(error)
                 }
             }
